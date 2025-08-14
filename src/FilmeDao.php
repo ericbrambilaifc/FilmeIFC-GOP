@@ -11,7 +11,8 @@ class ClienteDAO
         $nome = $dados['nome'];
         $imagem = Util::salvarArquivo();
 
-        $sql = "INSERT INTO cliente (nome, imagem) VALUES (:nome, :imagem)";
+        // Mude 'cliente' para 'Filme' aqui
+        $sql = "INSERT INTO Filme (nome, imagem) VALUES (:nome, :imagem)";
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':imagem', $imagem);
@@ -21,11 +22,11 @@ class ClienteDAO
     public static function listar()
     {
         $conexao = ConexaoBD::conectar();
-        $sql = "SELECT * FROM cliente";
+        // Mude 'cliente' para 'Filme' aqui
+        $sql = "SELECT * FROM Filme";
         $stmt = $conexao->prepare($sql);
         $stmt->execute();
         $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $clientes;
     }
-
 }
