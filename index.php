@@ -22,11 +22,10 @@
     <div class="max-w-6xl mx-auto p-4">
         <div class="bg-slate-800 rounded-lg p-4 mb-6 flex justify-between items-center">
             <h1 class="text-white text-2xl font-semibold">Filmes IFC+</h1>
-            <button class="text-white py-4 px-12 rounded-3xl text-7 font-bold transition-colors"
+            <a href="cadastro.php" class="text-white py-4 px-12 rounded-3xl text-7 font-bold transition-colors"
                 style="background: linear-gradient(94deg, #6E061C 1.22%, #E80D3A 100%)">
                 Adicionar
-            </button>
-
+            </a>
         </div>
 
         <div class="flex flex-wrap gap-3 mb-6 items-center">
