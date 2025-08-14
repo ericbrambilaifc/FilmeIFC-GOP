@@ -46,16 +46,48 @@
                 <option class="bg-[#174D95] text-white">Série</option>
             </select>
 
-            <select
-                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center">
-                <option class="bg-[#174D95] text-white">Gênero</option>
-                <option class="bg-[#174D95] text-white">Ação</option>
-                <option class="bg-[#174D95] text-white">Comédia</option>
-            </select>
+            <?php
+            // Certifique-se de que o caminho está correto dependendo de onde este arquivo HTML/PHP está localizado
+            require_once 'src/ConexaoBD.php';
+            require_once 'src/CategoriaDAO.php'; // Inclua o CategoriaDAO
+            
+            // Obter as categorias do banco de dados
+            $categorias = CategoriaDAO::listar();
+            ?>
 
             <select
-                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center">
-                <option class="bg-[#174D95] text-white">Classificação</option>
+                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center"
+                name="genero" id="genero">
+                <option class="bg-[#174D95] text-white" value="">Selecione o Gênero</option>
+
+
+                <?php foreach ($categorias as $categoria): ?>
+                    <option class="bg-[#174D95] text-white"
+                        value="<?php echo htmlspecialchars($categoria['idcategoria']); ?>">
+                        <?php echo htmlspecialchars($categoria['nome']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <?php
+            // Certifique-se de que o caminho está correto dependendo de onde este arquivo HTML/PHP está localizado
+            require_once 'src/ConexaoBD.php';
+            require_once 'src/ClassificacaoDAO.php'; // Inclua o ClassificacaoDAO
+            
+            // Obter as classificações do banco de dados
+            $classificacoes = ClassificacaoDAO::listar();
+            ?>
+
+            <select
+                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center"
+                name="classificacao" id="classificacao">
+                <option class="bg-[#174D95] text-white" value="">Selecione a Classificação</option>
+                <?php foreach ($classificacoes as $classificacao): ?>
+                    <option class="bg-[#174D95] text-white"
+                        value="<?php echo htmlspecialchars($classificacao['idclassificacao']); ?>">
+                        <?php echo htmlspecialchars($classificacao['nome']); ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
 
         </div>
