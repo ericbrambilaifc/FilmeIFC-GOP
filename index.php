@@ -56,19 +56,37 @@
             </button>
         </div>
 
+  <!--   // card filmes -->
+       <?php
+    require_once 'src/ClienteDAO.php';
+    $clientes = ClienteDAO::listar();
 
+    foreach ($clientes as $cliente){
+
+    
+    ?>
+    <p><?=$cliente['nome']?></p>
+    
+  
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                <div class="h-48 bg-gray-100 rounded-t-lg"></div>
+
+                <div class="h-48 bg-red-100 rounded-t-lg">
+            <img src="uploads/<?=$cliente['imagem']?>" alt="<?=$cliente['nome']?>" width="400">
+
+
+                </div>
                 <div class="p-4">
-                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-4 bg-red-200 rounded mb-2"></div>
                     <div class="h-3 bg-gray-200 rounded w-3/4"></div>
                 </div>
             </div>
 
 
         </div>
-
+  <?php
+    }
+    ?>
         <!-- Load More Button -->
         <div class="text-center mt-8">
             <button class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-md transition-colors">
