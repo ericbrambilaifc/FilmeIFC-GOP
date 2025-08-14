@@ -1,4 +1,7 @@
 <?php
-require_once 'src/ClienteDAO.php';
-ClienteDAO::inserir($_POST);
-echo "Cliente inserido com sucesso!🤣😂😂";
+require_once 'src/FilmeDAO.php';
+$dados = $_POST;
+FilmeDAO::inserir($dados);
+
+echo "Cliente inserido com sucesso! 😂";
+?>

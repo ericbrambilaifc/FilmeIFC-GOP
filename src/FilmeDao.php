@@ -8,25 +8,43 @@ class FilmeDAO
     {
         $conexao = ConexaoBD::conectar();
 
-        $nome = $dados['nome'];
+        $titulo = $dados['titulo'];
+        $diretor = $dados['diretor'];
+        $elenco = $dados['elenco'];
+        $ano = $dados['ano'];
+        $oscar = $dados['oscar'];
         $imagem = Util::salvarArquivo();
+        $idcategoria = $dados['idcategoria'];
+        $idclassificacao = $dados['idclassificacao'];
 
-        // Mude 'cliente' para 'Filme' aqui
-        $sql = "INSERT INTO Filme (nome, imagem) VALUES (:nome, :imagem)";
+        // Removido 'idfilme' da instrução INSERT para que o banco de dados cuide da numeração
+        $sql = "INSERT INTO Filme (titulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :oscar, :imagem, :idcategoria, :idclassificacao)";
+        
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(':nome', $nome);
+        
+        $stmt->bindParam(':titulo', $titulo);
+        $stmt->bindParam(':diretor', $diretor);
+        $stmt->bindParam(':elenco', $elenco);
+        $stmt->bindParam(':ano', $ano);
+        $stmt->bindParam(':oscar', $oscar);
         $stmt->bindParam(':imagem', $imagem);
+        $stmt->bindParam(':idcategoria', $idcategoria);
+        $stmt->bindParam(':idclassificacao', $idclassificacao);
+        
         $stmt->execute();
     }
 
     public static function listar()
     {
         $conexao = ConexaoBD::conectar();
-        // Mude 'cliente' para 'Filme' aqui
+        
         $sql = "SELECT * FROM Filme";
         $stmt = $conexao->prepare($sql);
         $stmt->execute();
-        $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $clientes;
+        $filmes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $filmes;
     }
 }
+?>
