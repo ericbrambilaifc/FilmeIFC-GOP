@@ -4,10 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Filme/Série</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+    <title>Cadastro de Filmes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .gradient-bg {
+        body {
+            font-family: "Mona Sans", sans-serif;
             background: linear-gradient(293deg, #07182F 0%, #094492 100%);
         }
 
@@ -17,24 +22,17 @@
         }
 
         .file-upload-area:hover {
-            border-color: #9ca3af;
-            background-color: #f9fafb;
-        }
-
-        body {
-            font-family: "Figtree", sans-serif;
+            border-color: #3b82f6;
+            background-color: #f8fafc;
         }
     </style>
 </head>
 
-<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-4xl">
-        <!-- Título -->
-        <h1 class="text-white text-2xl font-semibold text-center mb-8">
-            Faça o cadastro de seu filme/série agora!
-        </h1>
+<body class="bg-gray-200 min-h-screen">
 
-        <!-- Card Principal -->
+    <h3 class="text-3xl text-white font-semibold text-center my-12">Faça o cadastro de seu filme/série agora!</h3>
+
+    <div class="max-w-4xl mx-auto p-4">
         <div class="bg-gray-100 rounded-2xl p-8 shadow-xl">
             <!-- Navegação -->
             <div class="flex mb-8">
@@ -47,66 +45,125 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <!-- Formulário -->
-                <div class="space-y-4">
-                    <div>
-                        <input type="text" placeholder="Digite o nome do seu filme"
-                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                    </div>
+            <form action="cadastro.php" method="POST" enctype="multipart/form-data">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <!-- Formulário -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
+                            <input type="text" name="titulo" id="titulo" placeholder="Digite o nome do seu filme"
+                                class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                required>
+                        </div>
 
-                    <div>
-                        <input type="text" placeholder="Digite o nome do diretor"
-                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                    </div>
+                        <div>
+                            <label for="diretor" class="block text-sm font-medium text-gray-700 mb-1">Diretor</label>
+                            <input type="text" name="diretor" id="diretor" placeholder="Digite o nome do diretor"
+                                class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        </div>
 
-                    <div>
-                        <input type="text" placeholder="Digite o nome do elenco"
-                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                    </div>
+                        <div>
+                            <label for="elenco" class="block text-sm font-medium text-gray-700 mb-1">Elenco</label>
+                            <input type="text" name="elenco" id="elenco" placeholder="Digite o nome do elenco"
+                                class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        </div>
 
-                    <div>
-                        <input type="text" placeholder="Digite quantos oscars tem seu filme"
-                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                    </div>
-
-                    <div>
-                        <textarea placeholder="Digite os detalhes do seu filme" rows="4"
-                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"></textarea>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <p class="text-sm text-gray-600 mb-2">Inserir a imagem da capa</p>
-                        <div class="file-upload-area bg-white rounded-lg p-8 text-center cursor-pointer"
-                            onclick="document.getElementById('cover-upload').click()">
-                            <div class="flex flex-col items-center justify-center">
-                                <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                    </path>
-                                </svg>
-                                <p class="text-gray-500 text-sm">Clique para fazer upload</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="ano" class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+                                <input type="number" name="ano" id="ano" placeholder="2024" min="1900" max="2030"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            </div>
+                            <div>
+                                <label for="oscar" class="block text-sm font-medium text-gray-700 mb-1">Oscars</label>
+                                <input type="number" name="oscar" id="oscar" placeholder="0" min="0"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                             </div>
                         </div>
-                        <input type="file" id="cover-upload" class="hidden" accept="image/*">
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="idcategoria"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                                <select name="idcategoria" id="idcategoria"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="1">Ação</option>
+                                    <option value="2">Drama</option>
+                                    <option value="3">Comédia</option>
+                                    <option value="4">Terror</option>
+                                    <option value="5">Romance</option>
+                                    <option value="6">Ficção Científica</option>
+                                    <option value="7">Documentário</option>
+                                    <option value="8">Aventura</option>
+                                    <option value="9">Animação</option>
+                                    <option value="10">Thriller</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="idclassificacao"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Classificação</label>
+                                <select name="idclassificacao" id="idclassificacao"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                    <option value="">Selecione a classificação</option>
+                                    <option value="1">Livre</option>
+                                    <option value="2">10 anos</option>
+                                    <option value="3">12 anos</option>
+                                    <option value="4">14 anos</option>
+                                    <option value="5">16 anos</option>
+                                    <option value="6">18 anos</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="detalhes"
+                                class="block text-sm font-medium text-gray-700 mb-1">Detalhes/Sinopse</label>
+                            <textarea name="detalhes" id="detalhes" placeholder="Digite os detalhes do seu filme"
+                                rows="4"
+                                class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Upload de Imagem -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2">Inserir a imagem da
+                                capa</label>
+                            <div class="file-upload-area bg-white rounded-lg p-8 text-center cursor-pointer"
+                                onclick="document.getElementById('imagem').click()">
+                                <div class="flex flex-col items-center justify-center">
+                                    <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                    <p class="text-gray-500 text-sm">Clique para fazer upload</p>
+                                    <p class="text-gray-400 text-xs mt-1">PNG, JPG, JPEG até 5MB</p>
+                                </div>
+                            </div>
+                            <input type="file" name="imagem" id="imagem" class="hidden" accept="image/*">
+                        </div>
+
+                        <!-- Campo adicional para tipo (pode ser usado pelo PHP) -->
+                        <input type="hidden" name="tipo" value="filme">
+
+                        <!-- Informações adicionais -->
+
                     </div>
                 </div>
-            </div>
 
-            <!-- Botão Cadastrar -->
-            <div class="mt-8 flex justify-center">
-                <button
-                    class="bg-gray-800 hover:bg-gray-900 text-white px-12 py-3 rounded-lg transition-colors duration-200 font-medium">
-                    Cadastrar
-                </button>
-            </div>
+                <!-- Botão Cadastrar -->
+                <div class="mt-8 flex justify-center">
+                    <button type="submit"
+                        class="bg-gray-800 hover:bg-gray-900 text-white px-12 py-3 rounded-lg transition-colors duration-200 font-medium">
+                        Cadastrar Filme
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-
-   
 </body>
 
 </html>
