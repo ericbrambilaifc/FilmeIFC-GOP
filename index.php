@@ -21,8 +21,8 @@
 <body class="bg-gray-200 min-h-screen">
     <div class="max-w-6xl mx-auto p-4">
         <div class="bg-slate-800 rounded-lg p-4 mb-6 flex justify-between items-center">
-            <h1 class="text-white text-xl font-semibold">GOP</h1>
-            <button class="text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            <h1 class="text-white text-xl font-semibold">Filmes IFC+</h1>
+            <button class="text-white py-4 px-12 rounded-3xl text-7 font-bold transition-colors"
                 style="background: linear-gradient(94deg, #6E061C 1.22%, #E80D3A 100%)">
                 Adicionar
             </button>
@@ -32,7 +32,7 @@
         <div class="flex flex-wrap gap-3 mb-6 items-center">
             <div class="relative">
                 <input type="text" placeholder="Pesquise filmes, séries"
-                    class="w-full bg-gradient-to-r from-[#07182F] to-[#174D95] text-white placeholder-gray-300 px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gradient-to-r focus:from-[#07182F] focus:to-[#174D95] transition-colors">
+                    class="w-full bg-gradient-to-r from-[#07182F] to-[#174D95] text-white placeholder-gray-300 px-8 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gradient-to-r focus:from-[#07182F] focus:to-[#174D95] transition-colors">
                 <svg class="absolute right-3 top-2.5 h-4 w-4 text-gray-300" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
