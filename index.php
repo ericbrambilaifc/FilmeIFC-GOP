@@ -107,8 +107,7 @@
                 <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
 
                     <div class="h-48 bg-red-100 rounded-t-lg">
-                        <img src="uploads/<?= $cliente['imagem'] ?>" alt="<?= $cliente['nome'] ?>" width="400">
-
+<img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>" alt="<?= htmlspecialchars($filme['titulo']) ?>" class="w-full h-full object-cover">
 
                     </div>
                     <div class="p-4">
