@@ -88,35 +88,31 @@
         </div>
 
         <!--   // card filmes -->
-        <?php
-        require_once 'src/FilmeDAO.php';
-        $clientes = FilmeDAO::listar();
+      <?php
+require_once 'src/FilmeDAO.php';
+$filmes = FilmeDAO::listar(); // mudar para um nome condizente com o conteúdo
 
-        foreach ($clientes as $cliente) {
+foreach ($filmes as $filme) {
+    ?>
+    <p><?= htmlspecialchars($filme['titulo']) ?></p>
 
-
-            ?>
-            <p><?= $cliente['nome'] ?></p>
-
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-
-                    <div class="h-48 bg-red-100 rounded-t-lg">
-<img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>" alt="<?= htmlspecialchars($filme['titulo']) ?>" class="w-full h-full object-cover">
-
-                    </div>
-                    <div class="p-4">
-                        <div class="h-4 bg-red-200 rounded mb-2"></div>
-                        <div class="h-3 bg-gray-200 rounded w-3/4"></div>
-                    </div>
-                </div>
-
-
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div class="h-48 bg-red-100 rounded-t-lg">
+                <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>" 
+                     alt="<?= htmlspecialchars($filme['titulo']) ?>" 
+                     class="w-full h-full object-cover">
             </div>
-            <?php
-        }
-        ?>
+            <div class="p-4">
+                <h3 class="text-lg font-semibold"><?= htmlspecialchars($filme['titulo']) ?></h3>
+                <p class="text-gray-600"><?= htmlspecialchars($filme['detalhes'] ?? '') ?></p>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>
+
     </div>
 </body>
 
