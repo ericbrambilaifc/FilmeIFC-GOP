@@ -47,7 +47,6 @@
 
             <form action="cadastro.php" method="POST" enctype="multipart/form-data">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <!-- Formulário -->
                     <div class="space-y-4">
                         <div>
                             <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
