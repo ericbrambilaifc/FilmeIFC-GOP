@@ -94,8 +94,8 @@
 
         <!--   // card filmes -->
         <?php
-        require_once 'src/ClienteDAO.php';
-        $clientes = ClienteDAO::listar();
+        require_once 'src/FilmeDAO.php';
+        $clientes = FilmeDAO::listar();
 
         foreach ($clientes as $cliente) {
 
