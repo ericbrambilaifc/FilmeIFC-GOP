@@ -46,11 +46,9 @@
             </select>
 
             <?php
-            // Certifique-se de que o caminho está correto dependendo de onde este arquivo HTML/PHP está localizado
             require_once 'src/ConexaoBD.php';
-            require_once 'src/CategoriaDAO.php'; // Inclua o CategoriaDAO
+            require_once 'src/CategoriaDAO.php'; 
             
-            // Obter as categorias do banco de dados
             $categorias = CategoriaDAO::listar();
             ?>
 
@@ -69,11 +67,9 @@
             </select>
 
             <?php
-            // Certifique-se de que o caminho está correto dependendo de onde este arquivo HTML/PHP está localizado
             require_once 'src/ConexaoBD.php';
-            require_once 'src/ClassificacaoDAO.php'; // Inclua o ClassificacaoDAO
+            require_once 'src/ClassificacaoDAO.php';
             
-            // Obter as classificações do banco de dados
             $classificacoes = ClassificacaoDAO::listar();
             ?>
 
@@ -121,12 +117,6 @@
             <?php
         }
         ?>
-        <!-- Load More Button -->
-        <div class="text-center mt-8">
-            <button class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-md transition-colors">
-                Carregar mais
-            </button>
-        </div>
     </div>
 </body>
 
