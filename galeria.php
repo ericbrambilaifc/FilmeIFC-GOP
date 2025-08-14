@@ -6,17 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>Meus Clientes</h3>
+    <h3>Meus Filmes</h3>
     <?php
-    require_once 'src/ClienteDAO.php';
-    $clientes = ClienteDAO::listar();
-
-    foreach ($clientes as $cliente){
-
     
+    require_once 'src/FilmeDAO.php';
+
+  
+    $filmes = FilmeDAO::listar();
+
+  
+    foreach ($filmes as $filme){
     ?>
-    <p><?=$cliente['nome']?></p>
-    <img src="uploads/<?=$cliente['imagem']?>" alt="<?=$cliente['nome']?>" width="200">
+    <p><?=$filme['titulo']?></p>
+    <img src="uploads/<?=$filme['imagem']?>" alt="<?=$filme['titulo']?>" width="200">
     <?php
     }
     ?>
