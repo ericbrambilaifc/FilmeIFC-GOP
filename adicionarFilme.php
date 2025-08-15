@@ -29,12 +29,20 @@
 </head>
 
 <body class="bg-gray-200 min-h-screen">
+    <?php
+    // Inclua os arquivos DAO para buscar os dados do banco
+    require_once 'src/ConexaoBD.php';
+    require_once 'src/CategoriaDAO.php'; 
+    require_once 'src/ClassificacaoDAO.php'; 
+    
+    $categorias = CategoriaDAO::listar();
+    $classificacoes = ClassificacaoDAO::listar();
+    ?>
 
     <h3 class="text-3xl text-white font-semibold text-center my-12">Faça o cadastro de seu filme/série agora!</h3>
 
     <div class="max-w-4xl mx-auto p-4">
         <div class="bg-gray-100 rounded-2xl p-8 shadow-xl">
-            <!-- Navegação -->
             <div class="flex mb-8">
                 <button class="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-lg">
                     <div class="w-2 h-2 bg-white rounded-full"></div>
@@ -53,7 +61,6 @@
                             <input type="text" name="titulo" id="titulo" placeholder="Digite o nome do seu filme"
                                 class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                                 required>
-
                         </div>
 
                         <div>
@@ -87,17 +94,12 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
                                 <select name="idcategoria" id="idcategoria"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                                    <option value="">Selecione uma categoria</option>
-                                    <option value="1">Ação</option>
-                                    <option value="2">Drama</option>
-                                    <option value="3">Comédia</option>
-                                    <option value="4">Terror</option>
-                                    <option value="5">Romance</option>
-                                    <option value="6">Ficção </option>
-                                    <option value="7">Documentário</option>
-                                    <option value="8">Aventura</option>
-                        
-                                    <option value="10">Thriller</option>
+                                    <option value="">Selecione a Categoria</option>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= htmlspecialchars($categoria['idcategoria']); ?>">
+                                            <?= htmlspecialchars($categoria['nomecategoria']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div>
@@ -105,13 +107,12 @@
                                     class="block text-sm font-medium text-gray-700 mb-1">Classificação</label>
                                 <select name="idclassificacao" id="idclassificacao"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                                    <option value="">Selecione a classificação</option>
-                                    <option value="1">Livre</option>
-                                    <option value="2">10 anos</option>
-                                    <option value="3">12 anos</option>
-                                    <option value="4">14 anos</option>
-                                    <option value="5">16 anos</option>
-                                    <option value="6">18 anos</option>
+                                    <option value="">Selecione a Classificação</option>
+                                    <?php foreach ($classificacoes as $classificacao): ?>
+                                        <option value="<?= htmlspecialchars($classificacao['idclassificacao']); ?>">
+                                            <?= htmlspecialchars($classificacao['nomeclassificacao']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
@@ -125,7 +126,6 @@
                         </div>
                     </div>
 
-                    <!-- Upload de Imagem -->
                     <div class="space-y-4">
                         <div>
                             <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2">Inserir a imagem da
@@ -146,15 +146,11 @@
                             <input type="file" name="imagem" id="imagem" class="hidden" accept="image/*">
                         </div>
 
-                        <!-- Campo adicional para tipo (pode ser usado pelo PHP) -->
                         <input type="hidden" name="tipo" value="filme">
 
-                        <!-- Informações adicionais -->
-
-                    </div>
+                        </div>
                 </div>
 
-                <!-- Botão Cadastrar -->
                 <div class="mt-8 flex justify-center">
                     <button type="submit"
                         class="bg-gray-800 hover:bg-gray-900 text-white px-12 py-3 rounded-lg transition-colors duration-200 font-medium">
