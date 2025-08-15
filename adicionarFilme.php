@@ -93,7 +93,7 @@
                                     <option value="3">Comédia</option>
                                     <option value="4">Terror</option>
                                     <option value="5">Romance</option>
-                                    <option value="6">Ficção Científica</option>
+                                    <option value="6">Ficção </option>
                                     <option value="7">Documentário</option>
                                     <option value="8">Aventura</option>
                         

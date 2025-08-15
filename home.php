@@ -117,6 +117,7 @@
                                             <p>Ano<?= htmlspecialchars($filme['ano']) ?></p>
                                             <p>ID<?= htmlspecialchars($filme['categoria']) ?></P>
                                             <p>idfilme<?= htmlspecialchars($filme['idfilme']) ?></p>
+                                            
                                         </h3>
                                         <p class="text-gray-300 text-xs line-clamp-3">
                                             <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
