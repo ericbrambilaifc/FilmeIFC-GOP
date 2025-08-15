@@ -43,25 +43,58 @@
 
             <?php
             require_once 'src/ConexaoBD.php';
-            require_once 'src/CategoriaDAO.php'; 
-            
-            $categorias = CategoriaDAO::listar();
+            require_once 'src/ClassificacaoDAO.php';
+
+            $classificacoes = ClassificacaoDAO::listar();
             ?>
 
-            <a href="home.php" class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap">
-                Todos
-            </a>
+           <?php
+require_once 'src/ConexaoBD.php';
+require_once 'src/ClassificacaoDAO.php';
 
-            <?php foreach ($categorias as $categoria): ?>
-                <a href="home.php?categoria=<?= htmlspecialchars($categoria['idcategoria']) ?>" 
-                   class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap">
-                    <?= htmlspecialchars($categoria['nomecategoria']) ?>
+$classificacoes = ClassificacaoDAO::listar();
+?>
+
+<div class="relative inline-block text-left">
+    <!-- Botão principal do select -->
+    <button type="button" id="dropdownButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
+        Todas
+    </button>
+
+    <!-- Dropdown -->
+    <ul id="dropdownMenu" class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
+        <?php foreach ($classificacoes as $classificacao): ?>
+            <li>
+                <a href="?classificacao=<?= htmlspecialchars($classificacao['idclassificacao']) ?>" 
+                   class="block px-6 py-2 hover:bg-[#174D95] transition-colors">
+                    <?= htmlspecialchars($classificacao['nomeclassificacao']) ?>
                 </a>
-            <?php endforeach; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<script>
+    const button = document.getElementById('dropdownButton');
+    const menu = document.getElementById('dropdownMenu');
+
+    button.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+
+    // Fecha o menu ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+</script>
+
+
             <?php
             require_once 'src/ConexaoBD.php';
             require_once 'src/ClassificacaoDAO.php';
-            
+
             $classificacoes = ClassificacaoDAO::listar();
             ?>
 
@@ -80,9 +113,9 @@
 
         <?php
         require_once 'src/FilmeDAO.php';
-        
+
         $categoria_id = $_GET['categoria'] ?? null;
-        
+
         if ($categoria_id) {
             $filmes = FilmeDAO::listarPorCategoria($categoria_id);
         } else {
@@ -96,7 +129,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
             </button>
-        
+
             <div class="carousel-container overflow-hidden mx-16">
                 <div class="carousel-track flex transition-transform duration-500 ease-in-out" id="carouselTrack">
                     <?php foreach ($filmes as $filme) { ?>
@@ -105,7 +138,7 @@
                                 <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
                                     alt="<?= htmlspecialchars($filme['titulo']) ?>"
                                     class="w-full h-full object-cover">
-                                
+
                                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
                                     <div class="absolute bottom-0 left-0 right-0 p-4">
                                         <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">
@@ -117,7 +150,7 @@
                                             <p>Ano<?= htmlspecialchars($filme['ano']) ?></p>
                                             <p>ID<?= htmlspecialchars($filme['categoria']) ?></P>
                                             <p>idfilme<?= htmlspecialchars($filme['idfilme']) ?></p>
-                                            
+
                                         </h3>
                                         <p class="text-gray-300 text-xs line-clamp-3">
                                             <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
@@ -129,7 +162,7 @@
                     <?php } ?>
                 </div>
             </div>
-            
+
             <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -137,105 +170,105 @@
             </button>
         </div>
     </div>
-    
+
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const track = document.getElementById('carouselTrack');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        const totalFilmes = <?= count($filmes) ?>;
-        const itemWidth = 200; // 192px (w-48) + 16px margin
-        let currentIndex = 0;
-        let autoSlideInterval;
-    
-        function updateCarousel() {
-            const translateX = -currentIndex * itemWidth;
-            track.style.transform = `translateX(${translateX}px)`;
-        }
-    
-        function nextSlide() {
-            currentIndex++;
-            if (currentIndex >= totalFilmes) {
-                track.style.transition = 'none';
-                currentIndex = 0;
-                updateCarousel();
-                requestAnimationFrame(() => {
-                    track.style.transition = 'transform 0.5s ease-in-out';
-                    currentIndex = 1;
-                    updateCarousel();
-                });
-            } else {
-                updateCarousel();
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            const totalFilmes = <?= count($filmes) ?>;
+            const itemWidth = 200; // 192px (w-48) + 16px margin
+            let currentIndex = 0;
+            let autoSlideInterval;
+
+            function updateCarousel() {
+                const translateX = -currentIndex * itemWidth;
+                track.style.transform = `translateX(${translateX}px)`;
             }
-        }
-    
-        function prevSlide() {
-            if (currentIndex === 0) {
-                track.style.transition = 'none';
-                currentIndex = totalFilmes;
-                updateCarousel();
-                requestAnimationFrame(() => {
-                    track.style.transition = 'transform 0.5s ease-in-out';
+
+            function nextSlide() {
+                currentIndex++;
+                if (currentIndex >= totalFilmes) {
+                    track.style.transition = 'none';
+                    currentIndex = 0;
+                    updateCarousel();
+                    requestAnimationFrame(() => {
+                        track.style.transition = 'transform 0.5s ease-in-out';
+                        currentIndex = 1;
+                        updateCarousel();
+                    });
+                } else {
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentIndex === 0) {
+                    track.style.transition = 'none';
+                    currentIndex = totalFilmes;
+                    updateCarousel();
+                    requestAnimationFrame(() => {
+                        track.style.transition = 'transform 0.5s ease-in-out';
+                        currentIndex--;
+                        updateCarousel();
+                    });
+                } else {
                     currentIndex--;
                     updateCarousel();
-                });
-            } else {
-                currentIndex--;
-                updateCarousel();
+                }
             }
-        }
-    
-        // Event listeners
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                stopAutoSlide();
-                nextSlide();
-                startAutoSlide();
-            });
-        }
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                stopAutoSlide();
-                prevSlide();
-                startAutoSlide();
-            });
-        }
 
-        // Pausar quando hover no carrossel
-        const carousel = document.querySelector('.carousel-container') ? document.querySelector('.carousel-container').parentElement : null;
-        if (carousel) {
-            carousel.addEventListener('mouseenter', stopAutoSlide);
-            carousel.addEventListener('mouseleave', startAutoSlide);
-        }
+            // Event listeners
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    stopAutoSlide();
+                    nextSlide();
+                    startAutoSlide();
+                });
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    stopAutoSlide();
+                    prevSlide();
+                    startAutoSlide();
+                });
+            }
 
-        // Iniciar o auto slide se houver filmes
-        if (totalFilmes > 0) {
-            startAutoSlide();
-        }
-    
-    });
+            // Pausar quando hover no carrossel
+            const carousel = document.querySelector('.carousel-container') ? document.querySelector('.carousel-container').parentElement : null;
+            if (carousel) {
+                carousel.addEventListener('mouseenter', stopAutoSlide);
+                carousel.addEventListener('mouseleave', startAutoSlide);
+            }
+
+            // Iniciar o auto slide se houver filmes
+            if (totalFilmes > 0) {
+                startAutoSlide();
+            }
+
+        });
     </script>
 
     <style>
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    
-    .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    
-    
-    .carousel-item:hover {
-        z-index: 30;
-    }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        .carousel-item:hover {
+            z-index: 30;
+        }
     </style>
     </div>
 </body>
