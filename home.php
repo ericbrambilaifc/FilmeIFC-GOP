@@ -22,7 +22,6 @@
     <div class="max-w-6xl mx-auto p-4">
         <div class="bg-slate-800 rounded-lg p-4 mb-6 flex justify-between items-center">
             <h1 class="text-white text-2xl font-semibold">Filmes IFC+</h1>
-            
         </div>
 
         <div class="flex flex-wrap gap-3 mb-6 items-center">
@@ -49,20 +48,16 @@
             $categorias = CategoriaDAO::listar();
             ?>
 
-            <select
-                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center"
-                name="genero" id="genero">
-                <option class="bg-[#174D95] text-white" value="">Selecione o Gênero</option>
+            <a href="home.php" class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap">
+                Todos
+            </a>
 
-
-                <?php foreach ($categorias as $categoria): ?>
-                    <option class="bg-[#174D95] text-white"
-                        value="<?php echo htmlspecialchars($categoria['idcategoria']); ?>">
-                        <?php echo htmlspecialchars($categoria['nome']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-
+            <?php foreach ($categorias as $categoria): ?>
+                <a href="home.php?categoria=<?= htmlspecialchars($categoria['idcategoria']) ?>" 
+                   class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap">
+                    <?= htmlspecialchars($categoria['nomecategoria']) ?>
+                </a>
+            <?php endforeach; ?>
             <?php
             require_once 'src/ConexaoBD.php';
             require_once 'src/ClassificacaoDAO.php';
@@ -77,187 +72,170 @@
                 <?php foreach ($classificacoes as $classificacao): ?>
                     <option class="bg-[#174D95] text-white"
                         value="<?php echo htmlspecialchars($classificacao['idclassificacao']); ?>">
-                        <?php echo htmlspecialchars($classificacao['nome']); ?>
+                        <?php echo htmlspecialchars($classificacao['nomeclassificacao']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-
         </div>
 
-        <!--   // card filmes -->
-   <?php
-require_once 'src/FilmeDAO.php';
-$filmes = FilmeDAO::listar();
-?>
+        <?php
+        require_once 'src/FilmeDAO.php';
+        
+        $categoria_id = $_GET['categoria'] ?? null;
+        
+        if ($categoria_id) {
+            $filmes = FilmeDAO::listarPorCategoria($categoria_id);
+        } else {
+            $filmes = FilmeDAO::listar();
+        }
+        ?>
 
-<div class="relative bg-gray-50 py-8 group">
-    <!-- Botão Anterior -->
-    <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10  bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-    </button>
-
-    <!-- Container do Carrossel -->
-    <div class="carousel-container overflow-hidden mx-16">
-        <div class="carousel-track flex transition-transform duration-500 ease-in-out" id="carouselTrack">
-            <?php foreach ($filmes as $filme) { ?>
-                <div class="carousel-item flex-none w-48 mx-2 group/item">
-                    <div class="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-110 hover:z-20 aspect-[2/3]">
-                        <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
-                             alt="<?= htmlspecialchars($filme['titulo']) ?>"
-                             class="w-full h-full object-cover">
-                        
-                        <!-- Overlay com informações (aparece no hover) -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">
-                                    <?= htmlspecialchars($filme['titulo']) ?>
-                                </h3>
-                                <p class="text-gray-300 text-xs line-clamp-3">
-                                    <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
-                                </p>
+        <div class="relative bg-gray-50 py-8 group">
+            <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+        
+            <div class="carousel-container overflow-hidden mx-16">
+                <div class="carousel-track flex transition-transform duration-500 ease-in-out" id="carouselTrack">
+                    <?php foreach ($filmes as $filme) { ?>
+                        <div class="carousel-item flex-none w-48 mx-2 group/item">
+                            <div class="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-110 hover:z-20 aspect-[2/3]">
+                                <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
+                                    alt="<?= htmlspecialchars($filme['titulo']) ?>"
+                                    class="w-full h-full object-cover">
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">
+                                            <?= htmlspecialchars($filme['titulo']) ?>
+                                            <p>Oscar:<?= htmlspecialchars($filme['oscar']) ?></p>
+                                            <p>Elenco<?= htmlspecialchars($filme['elenco']) ?></p>
+                                            <p>Categoria<?= htmlspecialchars($filme['categoria']) ?></p>
+                                            <p>Classificação<?= htmlspecialchars($filme['classificacao']) ?></p>
+                                            <p>Ano<?= htmlspecialchars($filme['ano']) ?></p>
+                                            <p>ID<?= htmlspecialchars($filme['categoria']) ?></P>
+                                            <p>idfilme<?= htmlspecialchars($filme['idfilme']) ?></p>
+                                        </h3>
+                                        <p class="text-gray-300 text-xs line-clamp-3">
+                                            <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
-            <!-- Duplicar os primeiros itens para loop contínuo -->
-            <?php foreach (array_slice($filmes, 0, 6) as $filme) { ?>
-                <div class="carousel-item flex-none w-48 mx-2 group/item">
-                    <div class="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-110 hover:z-20 aspect-[2/3]">
-                        <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
-                             alt="<?= htmlspecialchars($filme['titulo']) ?>"
-                             class="w-full h-full object-cover">
-                        
-                        <!-- Overlay com informações (aparece no hover) -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">
-                                    <?= htmlspecialchars($filme['titulo']) ?>
-                                </h3>
-                                <p class="text-gray-300 text-xs line-clamp-3">
-                                    <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+            </div>
+            
+            <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
         </div>
     </div>
-
-    <!-- Botão Próximo -->
-    <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10  bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-    </button>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const track = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
     
-    const totalFilmes = <?= count($filmes) ?>;
-    const itemWidth = 200; // 192px (w-48) + 16px margin
-    let currentIndex = 0;
-    let autoSlideInterval;
-
-    function updateCarousel() {
-        const translateX = -currentIndex * itemWidth;
-        track.style.transform = `translateX(${translateX}px)`;
-    }
-
-    function nextSlide() {
-        currentIndex++;
-        if (currentIndex >= totalFilmes) {
-            // Reset sem animação
-            track.style.transition = 'none';
-            currentIndex = 0;
-            updateCarousel();
-            // Restaurar animação após um frame
-            requestAnimationFrame(() => {
-                track.style.transition = 'transform 0.5s ease-in-out';
-                currentIndex = 1;
-                updateCarousel();
-            });
-        } else {
-            updateCarousel();
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        const totalFilmes = <?= count($filmes) ?>;
+        const itemWidth = 200; // 192px (w-48) + 16px margin
+        let currentIndex = 0;
+        let autoSlideInterval;
+    
+        function updateCarousel() {
+            const translateX = -currentIndex * itemWidth;
+            track.style.transform = `translateX(${translateX}px)`;
         }
-    }
-
-    function prevSlide() {
-        if (currentIndex === 0) {
-            track.style.transition = 'none';
-            currentIndex = totalFilmes;
-            updateCarousel();
-            requestAnimationFrame(() => {
-                track.style.transition = 'transform 0.5s ease-in-out';
+    
+        function nextSlide() {
+            currentIndex++;
+            if (currentIndex >= totalFilmes) {
+                track.style.transition = 'none';
+                currentIndex = 0;
+                updateCarousel();
+                requestAnimationFrame(() => {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    currentIndex = 1;
+                    updateCarousel();
+                });
+            } else {
+                updateCarousel();
+            }
+        }
+    
+        function prevSlide() {
+            if (currentIndex === 0) {
+                track.style.transition = 'none';
+                currentIndex = totalFilmes;
+                updateCarousel();
+                requestAnimationFrame(() => {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    currentIndex--;
+                    updateCarousel();
+                });
+            } else {
                 currentIndex--;
                 updateCarousel();
-            });
-        } else {
-            currentIndex--;
-            updateCarousel();
+            }
         }
-    }
+    
+        // Event listeners
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                nextSlide();
+                startAutoSlide();
+            });
+        }
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                prevSlide();
+                startAutoSlide();
+            });
+        }
 
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 4000); // Muda a cada 4 segundos
-    }
+        // Pausar quando hover no carrossel
+        const carousel = document.querySelector('.carousel-container') ? document.querySelector('.carousel-container').parentElement : null;
+        if (carousel) {
+            carousel.addEventListener('mouseenter', stopAutoSlide);
+            carousel.addEventListener('mouseleave', startAutoSlide);
+        }
 
-    function stopAutoSlide() {
-        clearInterval(autoSlideInterval);
-    }
-
-    // Event listeners
-    nextBtn.addEventListener('click', () => {
-        stopAutoSlide();
-        nextSlide();
-        startAutoSlide();
+        // Iniciar o auto slide se houver filmes
+        if (totalFilmes > 0) {
+            startAutoSlide();
+        }
+    
     });
+    </script>
 
-    prevBtn.addEventListener('click', () => {
-        stopAutoSlide();
-        prevSlide();
-        startAutoSlide();
-    });
-
-    // Pausar quando hover no carrossel
-    const carousel = document.querySelector('.carousel-container').parentElement;
-    carousel.addEventListener('mouseenter', stopAutoSlide);
-    carousel.addEventListener('mouseleave', startAutoSlide);
-
-    // Iniciar o auto slide
-    startAutoSlide();
-});
-</script>
-
-<style>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Garantir que o hover funcione corretamente */
-.carousel-item:hover {
-    z-index: 30;
-}
-</style>
-</div>
-
+    <style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    
+    .carousel-item:hover {
+        z-index: 30;
+    }
+    </style>
     </div>
 </body>
 

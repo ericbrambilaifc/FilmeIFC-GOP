@@ -8,10 +8,10 @@ class CategoriaDAO
     {
         $conexao = ConexaoBD::conectar();
 
-        $nome = $dados['nome'];
-        $sql = "INSERT INTO categoria (nome) VALUES (:nome)";
+        $nome = $dados['nomecategoria'];
+        $sql = "INSERT INTO categoria (nomecategoria) VALUES (:nomecategoria)";
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':nomecategoria', $nome);
         $stmt->execute();
     }
 

@@ -96,7 +96,7 @@
                                     <option value="6">Ficção Científica</option>
                                     <option value="7">Documentário</option>
                                     <option value="8">Aventura</option>
-                                    <option value="9">Animação</option>
+                        
                                     <option value="10">Thriller</option>
                                 </select>
                             </div>
