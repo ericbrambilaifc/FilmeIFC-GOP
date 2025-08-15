@@ -48,47 +48,78 @@
             $classificacoes = ClassificacaoDAO::listar();
             ?>
 
-           <?php
-require_once 'src/ConexaoBD.php';
-require_once 'src/ClassificacaoDAO.php';
+            <?php
+            require_once 'src/ConexaoBD.php';
+            require_once 'src/ClassificacaoDAO.php';
 
-$classificacoes = ClassificacaoDAO::listar();
-?>
+            $classificacoes = ClassificacaoDAO::listar();
+            ?>
 
-<div class="relative inline-block text-left">
-    <!-- Botão principal do select -->
-    <button type="button" id="dropdownButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
-        Todas
-    </button>
+            <div class="relative inline-block text-left">
+                <!-- Botão principal do select -->
+                <button type="button" id="dropdownButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
+                    Genêro
+                </button>
 
-    <!-- Dropdown -->
-    <ul id="dropdownMenu" class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
-        <?php foreach ($classificacoes as $classificacao): ?>
-            <li>
-                <a href="?classificacao=<?= htmlspecialchars($classificacao['idclassificacao']) ?>" 
-                   class="block px-6 py-2 hover:bg-[#174D95] transition-colors">
-                    <?= htmlspecialchars($classificacao['nomeclassificacao']) ?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+                <!-- Dropdown -->
+                <?php
+                require_once 'src/ConexaoBD.php';
+                require_once 'src/ClassificacaoDAO.php';
 
-<script>
-    const button = document.getElementById('dropdownButton');
-    const menu = document.getElementById('dropdownMenu');
+                $classificacoes = ClassificacaoDAO::listar();
+                ?>
 
-    button.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-    });
+                <div class="relative inline-block text-left">
+                    <button type="button" id="dropdownClassificacaoButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap ms-2">
+                        Classificações
+                    </button>
 
-    // Fecha o menu ao clicar fora
-    document.addEventListener('click', (e) => {
-        if (!button.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.add('hidden');
-        }
-    });
-</script>
+                    <!-- Dropdown de classificações -->
+                    <ul id="dropdownClassificacaoMenu" class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
+                        <?php foreach ($classificacoes as $classificacao): ?>
+                            <li>
+                                <a href="?classificacao=<?= htmlspecialchars($classificacao['idclassificacao']) ?>"
+                                    class="block px-6 py-2 hover:bg-[#174D95] transition-colors">
+                                    <?= htmlspecialchars($classificacao['nomeclassificacao']) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <script>
+                    const classButton = document.getElementById('dropdownClassificacaoButton');
+                    const classMenu = document.getElementById('dropdownClassificacaoMenu');
+
+                    classButton.addEventListener('click', () => {
+                        classMenu.classList.toggle('hidden');
+                    });
+
+                    // Fecha o menu ao clicar fora
+                    document.addEventListener('click', (e) => {
+                        if (!classButton.contains(e.target) && !classMenu.contains(e.target)) {
+                            classMenu.classList.add('hidden');
+                        }
+                    });
+                </script>
+
+            </div>
+
+            <script>
+                const button = document.getElementById('dropdownButton');
+                const menu = document.getElementById('dropdownMenu');
+
+                button.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+
+                // Fecha o menu ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!button.contains(e.target) && !menu.contains(e.target)) {
+                        menu.classList.add('hidden');
+                    }
+                });
+            </script>
 
 
             <?php
@@ -97,18 +128,6 @@ $classificacoes = ClassificacaoDAO::listar();
 
             $classificacoes = ClassificacaoDAO::listar();
             ?>
-
-            <select
-                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-4 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center"
-                name="classificacao" id="classificacao">
-                <option class="bg-[#174D95] text-white" value="">Selecione a Classificação</option>
-                <?php foreach ($classificacoes as $classificacao): ?>
-                    <option class="bg-[#174D95] text-white"
-                        value="<?php echo htmlspecialchars($classificacao['idclassificacao']); ?>">
-                        <?php echo htmlspecialchars($classificacao['nomeclassificacao']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
         </div>
 
         <?php
