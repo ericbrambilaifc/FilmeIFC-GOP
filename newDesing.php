@@ -20,11 +20,11 @@
 
 <body class="min-h-screen text-white">
     <!-- Navigation -->
-    <nav class="flex items-center justify-start px-8 py-6 space-x-8">
+    <nav class="flex items-center justify-start px-8 ms-40 py-6 space-x-8">
         <a href="#" class="text-gray-300 hover:text-white transition-colors">home</a>
         <a href="#" class="text-gray-300 hover:text-white transition-colors">filmes</a>
         <a href="#" class="text-gray-300 hover:text-white transition-colors">séries</a>
-        <a href="#" class="text-gray-300 hover:text-white transition-colors">cadastro</a>
+        <a href="/adicionarFilme.php" class="text-gray-300 hover:text-white transition-colors">cadastro</a>
     </nav>
 
     <div class="max-w-7xl mx-auto px-8">
@@ -44,8 +44,8 @@
         $filmeDestaque = !empty($filmes) ? $filmes[0] : null;
         ?>
 
-        <section class="relative h-96 rounded-2xl overflow-hidden mb-12" 
-                 style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('uploads/<?= $filmeDestaque ? htmlspecialchars($filmeDestaque['imagem']) : 'gladiador.jpg' ?>'); background-size: cover; background-position: center;">
+        <section class="relative h-96 rounded-2xl overflow-hidden mb-12"
+            style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('uploads/<?= $filmeDestaque ? htmlspecialchars($filmeDestaque['imagem']) : 'gladiador.jpg' ?>'); background-size: cover; background-position: center;">
             <div class="absolute inset-0 flex items-center">
                 <div class="px-12 max-w-2xl">
                     <h1 class="text-5xl font-bold mb-4">
@@ -57,13 +57,13 @@
                     <div class="flex space-x-4">
                         <button class="flex items-center space-x-2 bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M8 5v10l8-5-8-5z"/>
+                                <path d="M8 5v10l8-5-8-5z" />
                             </svg>
                             <span>Assistir</span>
                         </button>
                         <button class="flex items-center space-x-2 bg-gray-600/70 backdrop-blur-sm text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-600/90 transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span>Detalhes</span>
                         </button>
@@ -88,7 +88,7 @@
                     <option>Série</option>
                 </select>
                 <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
             </div>
 
@@ -96,10 +96,10 @@
                 <button id="dropdownClassificacaoButton" class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full flex items-center space-x-2">
                     <span>Classificação</span>
                     <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                
+
                 <ul id="dropdownClassificacaoMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-2xl z-20 overflow-hidden">
                     <?php foreach ($classificacoes as $classificacao): ?>
                         <li>
@@ -116,7 +116,7 @@
                 <button id="dropdownButton" class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full flex items-center space-x-2">
                     <span>Gênero</span>
                     <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
             </div>
@@ -129,12 +129,12 @@
                 <div class="flex space-x-2">
                     <button id="moviesPrevBtn" class="bg-gray-700/50 hover:bg-gray-600/50 p-2 rounded-full transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
                     <button id="moviesNextBtn" class="bg-gray-700/50 hover:bg-gray-600/50 p-2 rounded-full transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
@@ -162,12 +162,12 @@
                 <div class="flex space-x-2">
                     <button id="seriesPrevBtn" class="bg-gray-700/50 hover:bg-gray-600/50 p-2 rounded-full transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
                     <button id="seriesNextBtn" class="bg-gray-700/50 hover:bg-gray-600/50 p-2 rounded-full transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
@@ -216,7 +216,7 @@
             const carousel = document.getElementById(carouselId);
             const prevBtn = document.getElementById(prevBtnId);
             const nextBtn = document.getElementById(nextBtnId);
-            
+
             if (!carousel || !prevBtn || !nextBtn) return;
 
             const itemWidth = 208; // 192px + 16px gap
@@ -246,6 +246,8 @@
             setupCarousel('moviesCarousel', 'moviesPrevBtn', 'moviesNextBtn');
             setupCarousel('seriesCarousel', 'seriesPrevBtn', 'seriesNextBtn');
         });
+
+
     </script>
 </body>
 
