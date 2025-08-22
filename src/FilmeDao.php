@@ -16,12 +16,11 @@ class FilmeDAO
         $imagem = Util::salvarArquivo();
         $idcategoria = $dados['idcategoria'];
         $idclassificacao = $dados['idclassificacao'];
-        $detalhes = $dados['detalhes']; 
+        $detalhes = $dados['detalhes'];
 
-        
-
-              $sql = "INSERT INTO Filme (itulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao, detalhes) 
-                VALUES (?, ?, ?, ?, ?,?,?,?,?)";
+        // Consulta SQL corrigida com parâmetros nomeados e o nome da coluna 'titulo' correto
+        $sql = "INSERT INTO Filme (titulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao, detalhes) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :oscar, :imagem, :idcategoria, :idclassificacao, :detalhes)";
         
         $stmt = $conexao->prepare($sql);
         
@@ -38,19 +37,13 @@ class FilmeDAO
         $stmt->execute();
     }
 
-          public static function listar() {
+    public static function listar() {
         $conexao = ConexaoBD::conectar();
         $sql = "select * from filme";
         $stmt = $conexao->prepare($sql);
         $stmt->execute();
-        $evento = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $evento;
-        
-       
+        $filmes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Variável renomeada para clareza
+        return $filmes;
     }
-        
 }
-
-    
-
 ?>
