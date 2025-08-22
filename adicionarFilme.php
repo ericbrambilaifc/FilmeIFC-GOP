@@ -95,11 +95,17 @@
                                 <select name="idcategoria" id="idcategoria"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     <option value="">Selecione a Categoria</option>
-                                    <?php foreach ($categorias as $categoria): ?>
-                                        <option value="<?= htmlspecialchars($categoria['idcategoria']); ?>">
-                                            <?= htmlspecialchars($categoria['nomecategoria']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
+                                    <?php 
+                                    require_once "src/CategoriaDAO.php";
+                                    $categorias = CategoriaDAO::listar();
+                                    
+                                    foreach ($categorias as $categoria){ 
+                                        ?>
+                                       
+                                                <option value="<?= $categoria['idcategoria'] ?>"><?= $categoria['nomecategoria'] ?></option>
+                                  <?php
+                        }
+                        ?>
                                 </select>
                             </div>
                             <div>
@@ -108,11 +114,17 @@
                                 <select name="idclassificacao" id="idclassificacao"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     <option value="">Selecione a Classificação</option>
-                                    <?php foreach ($classificacoes as $classificacao): ?>
-                                        <option value="<?= htmlspecialchars($classificacao['idclassificacao']); ?>">
-                                            <?= htmlspecialchars($classificacao['nomeclassificacao']); ?>
-                                        </option>
-                                    <?php endforeach; ?>
+                                    <?php
+                                    require_once "src/CategoriaDAO.php";
+                                    $classificacoes = ClassificacaoDAO::listar();
+
+                                    foreach ($classificacoes as $classificacao){
+                                        ?>
+                             <option value="<?= $classificacao['idclassificacao'] ?>"><?= $classificacao['nomeclassificacao'] ?></option>
+
+                                        <?php
+                        }
+                        ?>
                                 </select>
                             </div>
                         </div>
