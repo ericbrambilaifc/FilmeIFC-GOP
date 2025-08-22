@@ -130,18 +130,35 @@
             ?>
         </div>
 
-        <?php
-        require_once 'src/FilmeDAO.php';
+           <?php
+        include 'src/FilmeDAO.php';
+        
 
-        $categoria_id = $_GET['categoria'] ?? null;
+        $filmes = FilmeDAO::listar() ;
 
-        if ($categoria_id) {
-            $filmes = FilmeDAO::listarPorCategoria($categoria_id);
-        } else {
-            $filmes = FilmeDAO::listar();
+        foreach ($filmes as $filme) {
+    ?>
+            <div class="card" style="width: 18rem; margin-bottom: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title"><?=$filme['titulo']?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?=$filme['oscar']?></h6>
+                    <p class="card-text"><?=$filme['elenco']?></p>
+                    <p class="card-text"><?=$filme['categoria']?></p>
+                    <p class="card-text"><?=$filme['classificacao']?></p>
+                    <p class="card-text"><?=$filme['ano']?></p>
+                    <p class="card-text"><?=$filme['categoria']?></p>
+                    <p class="card-text"><?=$filme['idfilme']?></p>
+
+
+                    <p class="card-text"><?=$filme['detalhes']?></p>
+                    
+                </div>
+            </div>
+    <?php
         }
-        ?>
+    ?>
 
+       
         <div class="relative bg-gray-50 py-8 group">
             <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,46 +166,7 @@
                 </svg>
             </button>
 
-            <div class="carousel-container overflow-hidden mx-16">
-                <div class="carousel-track flex transition-transform duration-500 ease-in-out" id="carouselTrack">
-                    <?php foreach ($filmes as $filme) { ?>
-                        <div class="carousel-item flex-none w-48 mx-2 group/item">
-                            <div class="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transform transition-transform duration-300 hover:scale-110 hover:z-20 aspect-[2/3]">
-                                <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
-                                    alt="<?= htmlspecialchars($filme['titulo']) ?>"
-                                    class="w-full h-full object-cover">
-
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                                    <div class="absolute bottom-0 left-0 right-0 p-4">
-                                        <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">
-                                            <?= htmlspecialchars($filme['titulo']) ?>
-                                            <p>Oscar:<?= htmlspecialchars($filme['oscar']) ?></p>
-                                            <p>Elenco<?= htmlspecialchars($filme['elenco']) ?></p>
-                                            <p>Categoria<?= htmlspecialchars($filme['categoria']) ?></p>
-                                            <p>Classificação<?= htmlspecialchars($filme['classificacao']) ?></p>
-                                            <p>Ano<?= htmlspecialchars($filme['ano']) ?></p>
-                                            <p>ID<?= htmlspecialchars($filme['categoria']) ?></P>
-                                            <p>idfilme<?= htmlspecialchars($filme['idfilme']) ?></p>
-
-                                        </h3>
-                                        <p class="text-gray-300 text-xs line-clamp-3">
-                                            <?= htmlspecialchars($filme['detalhes'] ?? '') ?>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
-            </div>
-
-            <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-opacity-90 hover:bg-opacity-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-        </div>
-    </div>
+         
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
