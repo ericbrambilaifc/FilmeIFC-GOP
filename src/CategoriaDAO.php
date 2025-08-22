@@ -25,3 +25,4 @@ class CategoriaDAO
         return $categorias;
     }
 }
+
