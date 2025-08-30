@@ -49,25 +49,28 @@
                 </button>
 
                 <!-- Dropdown -->
-              
+      <?php 
+   require_once 'src/FilmeDAO.php';
+    $filmes = FilmeDAO::listar();
+?>
 
-                <div class="relative inline-block text-left">
-                    <button type="button" id="dropdownClassificacaoButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap ms-2">
-                        Classificações
-                    </button>
+<div class="relative inline-block text-left">
+    <button type="button" id="dropdownClassificacaoButton"
+        class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap ms-2">
+        Classificações
+    </button>
 
-                    <!-- Dropdown de classificações -->
-                    <ul id="dropdownClassificacaoMenu" class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
-                        <?php foreach ($classificacoes as $classificacao): ?>
-                            <li>
-                                <a href="?classificacao=<?= htmlspecialchars($classificacao['idclassificacao']) ?>"
-                                    class="block px-6 py-2 hover:bg-[#174D95] transition-colors">
-                                    <?= htmlspecialchars($classificacao['nomeclassificacao']) ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+    <!-- Dropdown de classificações -->
+    <ul id="dropdownClassificacaoMenu"
+        class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
+        <?php foreach ($filmes as $classificacao): ?>
+            <li>
+                <p class="card-text"><?=$classificacao['idclassificacao']?></p>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
 
                 <script>
                     const classButton = document.getElementById('dropdownClassificacaoButton');
@@ -107,7 +110,7 @@
         </div>
 
            <?php
-        include 'src/FilmeDAO.php';
+       require_once 'src/FilmeDAO.php';
         
 
         $filmes = FilmeDAO::listar() ;
