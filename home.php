@@ -11,7 +11,6 @@
     <title>Lumio OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <style>
     body {
         font-family: "Mona Sans", sans-serif;
@@ -41,20 +40,8 @@
                 <option class="bg-[#174D95] text-white">Série</option>
             </select>
 
-            <?php
-            require_once 'src/ConexaoBD.php';
-            require_once 'src/ClassificacaoDAO.php';
-
-            $classificacoes = ClassificacaoDAO::listar();
-            ?>
-
-            <?php
-            require_once 'src/ConexaoBD.php';
-            require_once 'src/ClassificacaoDAO.php';
-
-            $classificacoes = ClassificacaoDAO::listar();
-            ?>
-
+         
+        
             <div class="relative inline-block text-left">
                 <!-- Botão principal do select -->
                 <button type="button" id="dropdownButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
@@ -62,12 +49,7 @@
                 </button>
 
                 <!-- Dropdown -->
-                <?php
-                require_once 'src/ConexaoBD.php';
-                require_once 'src/ClassificacaoDAO.php';
-
-                $classificacoes = ClassificacaoDAO::listar();
-                ?>
+              
 
                 <div class="relative inline-block text-left">
                     <button type="button" id="dropdownClassificacaoButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap ms-2">
@@ -122,12 +104,6 @@
             </script>
 
 
-            <?php
-            require_once 'src/ConexaoBD.php';
-            require_once 'src/ClassificacaoDAO.php';
-
-            $classificacoes = ClassificacaoDAO::listar();
-            ?>
         </div>
 
            <?php
@@ -142,13 +118,12 @@
                 <div class="card-body">
                     <h5 class="card-title"><?=$filme['titulo']?></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><?=$filme['oscar']?></h6>
+                      <img src="uploads/<?=$filme['imagem']?>" alt="">
                     <p class="card-text"><?=$filme['elenco']?></p>
-                    <p class="card-text"><?=$filme['categoria']?></p>
-                    <p class="card-text"><?=$filme['classificacao']?></p>
+                    <p class="card-text"><?=$filme['idcategoria']?></p>
+                    <p class="card-text"><?=$filme['idclassificacao']?></p>
                     <p class="card-text"><?=$filme['ano']?></p>
-                    <p class="card-text"><?=$filme['categoria']?></p>
-                    <p class="card-text"><?=$filme['idfilme']?></p>
-
+                    
 
                     <p class="card-text"><?=$filme['detalhes']?></p>
                     
