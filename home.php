@@ -1,3 +1,18 @@
+<?php
+require_once 'src/FilmeDAO.php';
+require_once 'src/ConexaoBD.php';
+
+// conecta
+$con = ConexaoBD::conectar();
+
+
+
+
+
+// pega os filmes
+$filmes = FilmeDAO::listar();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -39,37 +54,65 @@
                 <option class="bg-[#07182F] text-white">Filme</option>
                 <option class="bg-[#174D95] text-white">Série</option>
             </select>
-
-         
+<?php 
+require_once 'src/FilmeDAO.php';
+require_once 'src/CategoriaDAO.php';
+         $categorias = CategoriaDAO::listar();
+         ?>
         
-            <div class="relative inline-block text-left">
-                <!-- Botão principal do select -->
-                <button type="button" id="dropdownButton" class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
-                    Genêro
-                </button>
+          <div class="relative inline-block text-left">
+    <button type="button" id="dropdownButton"
+        class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
+        Genêro
+    </button>
 
-                <!-- Dropdown -->
-      <?php 
-   require_once 'src/FilmeDAO.php';
+    <ul id="dropdownMenu"
+        class="hidden absolute mt-2 w-40 bg-[#07182F] text-white rounded shadow-lg z-10">
+        <?php foreach ($categorias as $categoria): ?>
+            <li>
+                <a href="home.php?categoria=<?=$categoria['idcategoria']?>"
+                   class="block px-4 py-2 hover:bg-[#174D95]">
+                   <?=$categoria['nomecategoria']?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<?php
+require_once 'src/FilmeDAO.php';
+require_once 'src/ClassificacaoDAO.php'; 
+if (isset($_GET['classificacao'])) {
+    $idClassificacao = intval($_GET['classificacao']);
+    $filmes = FilmeDAO::listarPorClassificacao($idClassificacao);
+} elseif (isset($_GET['categoria'])) {
+    $idCategoria = intval($_GET['categoria']);
+    $filmes = FilmeDAO::listarPorCategoria($idCategoria); // se tiver implementado
+} else {
     $filmes = FilmeDAO::listar();
-?>
+}
 
+$classificacoes = ClassificacaoDAO::listar(); 
+?>
 <div class="relative inline-block text-left">
     <button type="button" id="dropdownClassificacaoButton"
         class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap ms-2">
         Classificações
     </button>
 
-    <!-- Dropdown de classificações -->
     <ul id="dropdownClassificacaoMenu"
         class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
-        <?php foreach ($filmes as $classificacao): ?>
+        <?php foreach ($classificacoes as $classificacao): ?>
             <li>
-                <p class="card-text"><?=$classificacao['idclassificacao']?></p>
+                <a href="home.php?classificacao=<?=$classificacao['idclassificacao']?>"
+                   class="block px-4 py-2 hover:bg-[#174D95]">
+                   <?=$classificacao['nomeclassificacao']?>
+                </a>
             </li>
         <?php endforeach; ?>
     </ul>
 </div>
+
 
 
                 <script>
@@ -113,28 +156,36 @@
        require_once 'src/FilmeDAO.php';
         
 
-        $filmes = FilmeDAO::listar() ;
+       if (isset($_GET['classificacao'])) {
+    $idClassificacao = $_GET['classificacao'];
+    $filmes = FilmeDAO::listarPorClassificacao($idClassificacao);
+} elseif (isset($_GET['categoria'])) {
+    $idCategoria = $_GET['categoria'];
+    $filmes = FilmeDAO::listarPorCategoria($idCategoria);
+} else {
+    $filmes = FilmeDAO::listar();
+}
 
-        foreach ($filmes as $filme) {
-    ?>
-            <div class="card" style="width: 18rem; margin-bottom: 10px;">
-                <div class="card-body">
-                    <h5 class="card-title"><?=$filme['titulo']?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><?=$filme['oscar']?></h6>
-                      <img src="uploads/<?=$filme['imagem']?>" alt="">
-                    <p class="card-text"><?=$filme['elenco']?></p>
-                    <p class="card-text"><?=$filme['idcategoria']?></p>
-                    <p class="card-text"><?=$filme['idclassificacao']?></p>
-                    <p class="card-text"><?=$filme['ano']?></p>
-                    
+        ?>
 
-                    <p class="card-text"><?=$filme['detalhes']?></p>
-                    
-                </div>
-            </div>
-    <?php
-        }
-    ?>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <?php foreach ($filmes as $filme): ?>
+        <div class="bg-white rounded-lg shadow p-4">
+            <h5 class="font-bold text-lg"><?=$filme['titulo']?></h5>
+            <p class="text-sm text-gray-500">Oscar: <?=$filme['oscar']?></p>
+            <img src="uploads/<?=$filme['imagem']?>" alt="<?=$filme['titulo']?>"
+                 class="w-full h-64 object-cover rounded-md my-2">
+            <p class="text-sm"><?=$filme['elenco']?></p>
+            <p class="text-sm">Categoria: <?=$filme['idcategoria']?></p>
+            <p class="text-sm">Classificação: <?=$filme['idclassificacao']?></p>
+            <p class="text-sm">Ano: <?=$filme['ano']?></p>
+            <p class="text-sm"><?=$filme['detalhes']?></p>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+    
 
        
         <div class="relative bg-gray-50 py-8 group">

@@ -18,7 +18,6 @@ class FilmeDAO
         $idclassificacao = $dados['idclassificacao'];
         $detalhes = $dados['detalhes'];
 
-        // Consulta SQL corrigida com parâmetros nomeados e o nome da coluna 'titulo' correto
         $sql = "INSERT INTO Filme (titulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao, detalhes) 
                 VALUES (:titulo, :diretor, :elenco, :ano, :oscar, :imagem, :idcategoria, :idclassificacao, :detalhes)";
         
@@ -39,11 +38,40 @@ class FilmeDAO
 
     public static function listar() {
         $conexao = ConexaoBD::conectar();
-        $sql = "select * from filme";
+        $sql = "SELECT f.*, c.nomecategoria, cl.nomeclassificacao
+            FROM filme f
+            JOIN categoria c ON f.idcategoria = c.idcategoria
+            JOIN classificacao cl ON f.idclassificacao = cl.idclassificacao";
         $stmt = $conexao->prepare($sql);
         $stmt->execute();
-        $filmes = $stmt->fetchAll(PDO::FETCH_ASSOC); // Variável renomeada para clareza
-        return $filmes;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+   public static function listarPorClassificacao($idClassificacao) {
+    $conexao = ConexaoBD::conectar();
+    $sql = "SELECT f.*, c.nomecategoria, cl.nomeclassificacao
+            FROM filme f
+            JOIN categoria c ON f.idcategoria = c.idcategoria
+            JOIN classificacao cl ON f.idclassificacao = cl.idclassificacao
+            WHERE f.idclassificacao = :idclassificacao";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindValue(':idclassificacao', $idClassificacao, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public static function listarPorCategoria($idCategoria) {
+    $conexao = ConexaoBD::conectar();
+    $sql = "SELECT f.*, c.nomecategoria, cl.nomeclassificacao
+            FROM filme f
+            JOIN categoria c ON f.idcategoria = c.idcategoria
+            JOIN classificacao cl ON f.idclassificacao = cl.idclassificacao
+            WHERE f.idcategoria = :idcategoria";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindValue(':idcategoria', $idCategoria, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>
