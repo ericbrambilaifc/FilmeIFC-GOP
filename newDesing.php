@@ -142,7 +142,23 @@
 
             <div class="relative overflow-hidden">
                 <div id="moviesCarousel" class="flex space-x-4 transition-transform duration-500">
-                    <?php foreach ($filmes as $filme) { ?>
+                    <?php
+                      require_once 'src/FilmeDAO.php';
+        
+
+       if (isset($_GET['classificacao'])) {
+    $idClassificacao = $_GET['classificacao'];
+    $filmes = FilmeDAO::listarPorClassificacao($idClassificacao);
+} elseif (isset($_GET['categoria'])) {
+    $idCategoria = $_GET['categoria'];
+    $filmes = FilmeDAO::listarPorCategoria($idCategoria);
+} else {
+    $filmes = FilmeDAO::listar();
+}
+ foreach
+                    
+                    
+                    ($filmes as $filme) { ?>
                         <div class="flex-none w-48">
                             <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300">
                                 <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
@@ -175,11 +191,11 @@
 
             <div class="relative overflow-hidden">
                 <div id="seriesCarousel" class="flex space-x-4 transition-transform duration-500">
-                    <?php foreach ($filmes as $filme) { ?>
+                    <?php foreach ($series as $serie) { ?>
                         <div class="flex-none w-48">
                             <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300">
-                                <img src="uploads/<?= htmlspecialchars($filme['imagem']) ?>"
-                                    alt="<?= htmlspecialchars($filme['titulo']) ?>"
+                                <img src="uploads/<?= htmlspecialchars($serie['imagem']) ?>"
+                                    alt="<?= htmlspecialchars($serie['titulo']) ?>"
                                     class="w-full h-full object-cover">
                             </div>
                         </div>

@@ -1,17 +1,4 @@
-<?php
-require_once 'src/FilmeDAO.php';
-require_once 'src/ConexaoBD.php';
 
-// conecta
-$con = ConexaoBD::conectar();
-
-
-
-
-
-// pega os filmes
-$filmes = FilmeDAO::listar();
-?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -48,12 +35,45 @@ $filmes = FilmeDAO::listar();
                         d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </div>
+            
+<?php
+require_once 'src/FilmeDAO.php';
+require_once 'src/SerieDAO.php';
 
-            <select
-                class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-8 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center">
-                <option class="bg-[#07182F] text-white">Filme</option>
-                <option class="bg-[#174D95] text-white">Série</option>
-            </select>
+$tipo = isset($_GET['tipo']) ? $_GET['tipo'] : 'filme';
+
+
+if ($tipo === 'serie') {
+    if (isset($_GET['classificacao'])) {
+        $idClassificacao = $_GET['classificacao'];
+        $itens = SerieDAO::listarPorClassificacao($idClassificacao);
+    } elseif (isset($_GET['categoria'])) {
+        $idCategoria = $_GET['categoria'];
+        $itens = SerieDAO::listarPorCategoria($idCategoria);
+    } else {
+        $itens = SerieDAO::listar();
+    }
+} else {
+    if (isset($_GET['classificacao'])) {
+        $idClassificacao = $_GET['classificacao'];
+        $itens = FilmeDAO::listarPorClassificacao($idClassificacao);
+    } elseif (isset($_GET['categoria'])) {
+        $idCategoria = $_GET['categoria'];
+        $itens = FilmeDAO::listarPorCategoria($idCategoria);
+    } else {
+        $itens = FilmeDAO::listar();
+    }
+}
+?>
+
+         <select onchange="window.location.href=this.value"
+    class="bg-gradient-to-r from-[#07182F] to-[#174D95] hover:opacity-90 text-white px-8 py-2 rounded-full text-[18px] transition-opacity whitespace-nowrap appearance-none text-center">
+    <option value="home.php?tipo=filme" <?= $tipo==='filme' ? 'selected' : '' ?>>Filme</option>
+    <option value="home.php?tipo=serie" <?= $tipo==='serie' ? 'selected' : '' ?>>Série</option>
+</select>
+
+                
+           
 <?php 
 require_once 'src/FilmeDAO.php';
 require_once 'src/CategoriaDAO.php';
@@ -180,19 +200,20 @@ $classificacoes = ClassificacaoDAO::listar();
 
         ?>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <?php foreach ($filmes as $filme): ?>
+   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <?php foreach ($itens as $item): ?>
         <div class="bg-white rounded-lg shadow p-4">
-            <h5 class="font-bold text-lg"><?=$filme['titulo']?></h5>
-            <p class="text-sm text-gray-500">Oscar: <?=$filme['oscar']?></p>
-            <img src="uploads/<?=$filme['imagem']?>" alt="<?=$filme['titulo']?>"
+            <h5 class="font-bold text-lg"><?=$item['titulo']?></h5>
+            <p class="text-sm text-gray-500">Oscar: <?=$item['oscar'] ?? '0'?></p>
+            <img src="uploads/<?=$item['imagem']?>" alt="<?=$item['titulo']?>"
                  class="w-full h-64 object-cover rounded-md my-2">
-            <p class="text-sm"><?=$filme['elenco']?></p>
-            <p class="text-sm">Ano: <?=$filme['ano']?></p>
-            <p class="text-sm"><?=$filme['detalhes']?></p>
+            <p class="text-sm"><?=$item['elenco']?></p>
+            <p class="text-sm">Ano: <?=$item['ano']?></p>
+            <p class="text-sm"><?=$item['detalhes']?></p>
         </div>
     <?php endforeach; ?>
 </div>
+
 
 
     
