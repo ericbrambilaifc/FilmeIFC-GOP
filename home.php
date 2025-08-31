@@ -64,10 +64,20 @@ require_once 'src/CategoriaDAO.php';
     <button type="button" id="dropdownButton"
         class="bg-gradient-to-r from-[#07182F] to-[#174D95] text-white px-8 py-2 rounded-full text-[18px] transition-all whitespace-nowrap">
         Genêro
+        
+
     </button>
+            
+
 
     <ul id="dropdownMenu"
         class="hidden absolute mt-2 w-40 bg-[#07182F] text-white rounded shadow-lg z-10">
+         <li>
+            <a href="home.php"
+               class="block px-4 py-2 hover:bg-[#174D95]">
+               Todos
+            </a>
+        </li>
         <?php foreach ($categorias as $categoria): ?>
             <li>
                 <a href="home.php?categoria=<?=$categoria['idcategoria']?>"
@@ -82,15 +92,7 @@ require_once 'src/CategoriaDAO.php';
 <?php
 require_once 'src/FilmeDAO.php';
 require_once 'src/ClassificacaoDAO.php'; 
-if (isset($_GET['classificacao'])) {
-    $idClassificacao = intval($_GET['classificacao']);
-    $filmes = FilmeDAO::listarPorClassificacao($idClassificacao);
-} elseif (isset($_GET['categoria'])) {
-    $idCategoria = intval($_GET['categoria']);
-    $filmes = FilmeDAO::listarPorCategoria($idCategoria); // se tiver implementado
-} else {
-    $filmes = FilmeDAO::listar();
-}
+
 
 $classificacoes = ClassificacaoDAO::listar(); 
 ?>
@@ -101,7 +103,17 @@ $classificacoes = ClassificacaoDAO::listar();
     </button>
 
     <ul id="dropdownClassificacaoMenu"
+
+
         class="hidden absolute mt-2 w-full bg-[#07182F] text-white rounded shadow-lg z-10">
+
+ 
+        <li>
+            <a href="home.php"
+               class="block px-4 py-2 hover:bg-[#174D95]">
+               Todos
+            </a>
+        </li>
         <?php foreach ($classificacoes as $classificacao): ?>
             <li>
                 <a href="home.php?classificacao=<?=$classificacao['idclassificacao']?>"
