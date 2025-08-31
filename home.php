@@ -188,8 +188,6 @@ $classificacoes = ClassificacaoDAO::listar();
             <img src="uploads/<?=$filme['imagem']?>" alt="<?=$filme['titulo']?>"
                  class="w-full h-64 object-cover rounded-md my-2">
             <p class="text-sm"><?=$filme['elenco']?></p>
-            <p class="text-sm">Categoria: <?=$filme['idcategoria']?></p>
-            <p class="text-sm">Classificação: <?=$filme['idclassificacao']?></p>
             <p class="text-sm">Ano: <?=$filme['ano']?></p>
             <p class="text-sm"><?=$filme['detalhes']?></p>
         </div>
