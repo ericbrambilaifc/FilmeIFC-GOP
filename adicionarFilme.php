@@ -228,6 +228,7 @@
                         <input type="hidden" name="tipo" value="filme" id="tipo-hidden">
                     </div>
                 </div>
+                
 
                 <div class="mt-8 flex justify-center">
                     <button type="submit"
