@@ -193,21 +193,34 @@
 
     ?>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <?php foreach ($itens as $item): ?>
-            <div class="bg-white rounded-lg shadow p-4">
-                <h5 class="font-bold text-lg"><?= $item['titulo'] ?></h5>
-                <p class="text-sm text-gray-500">Oscar: <?= $item['oscar'] ?? '0' ?></p>
-                <img src="uploads/<?= $item['imagem'] ?>" alt="<?= $item['titulo'] ?>"
-                    class="w-full h-64 object-cover rounded-md my-2">
-                <p class="text-sm"><?= $item['elenco'] ?></p>
-                <p class="text-sm">Ano: <?= $item['ano'] ?></p>
-                <p class="text-sm"><?= $item['detalhes'] ?></p>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <?php foreach ($itens as $item): ?>
+        <div class="bg-white rounded-lg shadow p-4">
+            <h5 class="font-bold text-lg"><?= $item['titulo'] ?></h5>
+            
+            <!-- Mostrar Oscars apenas para filmes -->
+            <?php if ($tipo === 'filme' && isset($item['oscar'])): ?>
+                <p class="text-sm text-gray-500">Oscar: <?= $item['oscar'] ?></p>
+            <?php endif; ?>
+            
+            <!-- Mostrar Temporadas/Episódios para séries -->
+            <?php if ($tipo === 'serie'): ?>
+                <?php if (isset($item['temporadas'])): ?>
+                    <p class="text-sm text-gray-500">Temporadas: <?= $item['temporadas'] ?></p>
+                <?php endif; ?>
+                <?php if (isset($item['episodios'])): ?>
+                    <p class="text-sm text-gray-500">Episódios: <?= $item['episodios'] ?></p>
+                <?php endif; ?>
+            <?php endif; ?>
+            
+            <img src="uploads/<?= $item['imagem'] ?>" alt="<?= $item['titulo'] ?>"
+                class="w-full h-64 object-cover rounded-md my-2">
+            <p class="text-sm"><?= $item['elenco'] ?? '' ?></p>
+            <p class="text-sm">Ano: <?= $item['ano'] ?? '' ?></p>
+            <p class="text-sm"><?= $item['detalhes'] ?? '' ?></p>
+        </div>
+    <?php endforeach; ?>
+</div>
 
 
 
