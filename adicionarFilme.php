@@ -92,8 +92,6 @@
                 </button>
             </div>
 
-            <a href="">Teste</a>
-
             <form action="cadastro.php" method="POST" enctype="multipart/form-data">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div class="space-y-4">

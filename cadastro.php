@@ -4,5 +4,7 @@ $dados = $_POST;
 FilmeDAO::inserir($dados);
 
 echo "Cadastro realizado com sucesso ✅";
-echo "Voltar para ";
+echo "Voltar para <a href='/adicionarFilme.php'>Adcionar Filme/Série</a>";
+echo "</br>";
+echo "Ir para <a href='/newDesing.php'>Ver Filmes/Série</a>";
 ?>
