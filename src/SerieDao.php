@@ -8,75 +8,61 @@ class SerieDAO
     {
         $conexao = ConexaoBD::conectar();
 
-        $titulo = $dados['titulo'];
-        $diretor = $dados['diretor'] ?? null;
-        $elenco = $dados['elenco'] ?? null;
-        $ano = $dados['ano'] ?? null;
-        $temporadas = $dados['temporadas'] ?? null;
-        $episodios = $dados['episodios'] ?? null;
-        $imagem = Util::salvarArquivo();
-        $idcategoria = $dados['idcategoria'] ?? null;
-        $idclassificacao = $dados['idclassificacao'] ?? null;
-        $detalhes = $dados['detalhes'] ?? null;
-        $imagemBanner = Util::salvarArquivo();
-
         $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes, imagemBanner) 
                 VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes, :imagemBanner)";
 
         $stmt = $conexao->prepare($sql);
-
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':diretor', $diretor);
-        $stmt->bindParam(':elenco', $elenco);
-        $stmt->bindParam(':ano', $ano);
-        $stmt->bindParam(':imagem', $imagem);
-        $stmt->bindParam(':temporadas', $temporadas);
-        $stmt->bindParam(':episodios', $episodios);
-        $stmt->bindParam(':idcategoria', $idcategoria);
-        $stmt->bindParam(':idclassificacao', $idclassificacao);
-        $stmt->bindParam(':detalhes', $detalhes);
-        $stmt->bindParam(':imagemBanner', $imagemBanner);
-
-        $stmt->execute();
+        $stmt->execute([
+            ':titulo' => $dados['titulo'],
+            ':diretor' => $dados['diretor'] ?? null,
+            ':elenco' => $dados['elenco'] ?? null,
+            ':ano' => $dados['ano'] ?? null,
+            ':temporadas' => $dados['temporadas'] ?? null,
+            ':episodios' => $dados['episodios'] ?? null,
+            ':imagem' => Util::salvarArquivo(),
+            ':idcategoria' => $dados['idcategoria'] ?? null,
+            ':idclassificacao' => $dados['idclassificacao'] ?? null,
+            ':detalhes' => $dados['detalhes'] ?? null,
+            ':imagemBanner' => Util::salvarArquivo()
+        ]);
     }
 
     public static function listar()
     {
         $conexao = ConexaoBD::conectar();
-        $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
-            FROM serie s
-            JOIN categoria c ON s.idcategoria = c.idcategoria
-            JOIN classificacao cl ON s.idclassificacao = cl.idclassificacao";
-        $stmt = $conexao->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT serie.*, categoria.nomecategoria, classificacao.nomeclassificacao
+                FROM serie
+                JOIN categoria ON serie.idcategoria = categoria.idcategoria
+                JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao";
+        
+        return $conexao->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function listarPorClassificacao($idClassificacao)
     {
         $conexao = ConexaoBD::conectar();
-        $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
-                FROM serie s
-                JOIN categoria c ON s.idcategoria = c.idcategoria
-                JOIN classificacao cl ON s.idclassificacao = cl.idclassificacao
-                WHERE s.idclassificacao = :idclassificacao";
+        $sql = "SELECT serie.*, categoria.nomecategoria, classificacao.nomeclassificacao
+                FROM serie
+                JOIN categoria ON serie.idcategoria = categoria.idcategoria
+                JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao
+                WHERE serie.idclassificacao = ?";
+        
         $stmt = $conexao->prepare($sql);
-        $stmt->bindValue(':idclassificacao', $idClassificacao, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute([$idClassificacao]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function listarPorCategoria($idCategoria)
     {
         $conexao = ConexaoBD::conectar();
-        $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
-                FROM serie s
-                JOIN categoria c ON s.idcategoria = c.idcategoria
-                JOIN classificacao cl ON s.idclassificacao = cl.idclassificacao
-                WHERE s.idcategoria = :idcategoria";
+        $sql = "SELECT serie.*, categoria.nomecategoria, classificacao.nomeclassificacao
+                FROM serie
+                JOIN categoria ON serie.idcategoria = categoria.idcategoria
+                JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao
+                WHERE serie.idcategoria = ?";
+        
         $stmt = $conexao->prepare($sql);
-        $stmt->bindValue(':idcategoria', $idCategoria, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute([$idCategoria]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
