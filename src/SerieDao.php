@@ -18,12 +18,14 @@ class SerieDAO
         $idcategoria = $dados['idcategoria'] ?? null;
         $idclassificacao = $dados['idclassificacao'] ?? null;
         $detalhes = $dados['detalhes'] ?? null;
+        $imagemBanner = Util::salvarArquivo();
 
-        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes) 
-                VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes)";
-        
+
+        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes, imagemBanner) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes, :imagemBanner)";
+
         $stmt = $conexao->prepare($sql);
-        
+
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':diretor', $diretor);
         $stmt->bindParam(':elenco', $elenco);
@@ -34,11 +36,13 @@ class SerieDAO
         $stmt->bindParam(':idcategoria', $idcategoria);
         $stmt->bindParam(':idclassificacao', $idclassificacao);
         $stmt->bindParam(':detalhes', $detalhes);
-        
+        $stmt->bindParam(':imagemBanner', $imagemBanner);
+
         $stmt->execute();
     }
 
-    public static function listar() {
+    public static function listar()
+    {
         $conexao = ConexaoBD::conectar();
         $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
             FROM serie s
@@ -49,7 +53,8 @@ class SerieDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function listarPorClassificacao($idClassificacao) {
+    public static function listarPorClassificacao($idClassificacao)
+    {
         $conexao = ConexaoBD::conectar();
         $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
                 FROM serie s
@@ -62,7 +67,8 @@ class SerieDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function listarPorCategoria($idCategoria) {
+    public static function listarPorCategoria($idCategoria)
+    {
         $conexao = ConexaoBD::conectar();
         $sql = "SELECT s.*, c.nomecategoria, cl.nomeclassificacao
                 FROM serie s
@@ -75,4 +81,3 @@ class SerieDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
