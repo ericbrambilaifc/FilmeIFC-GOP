@@ -238,7 +238,7 @@
             <div class="relative">
                 <select onchange="window.location.href=this.value"
                     class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full appearance-none cursor-pointer pr-8">
-                    <option value="newDesing.php?tipo=todos" <?= $tipo === 'todos' ? 'selected' : '' ?>>Todos</option>
+                    <option value="newDesing.php?tipo=" <?= $tipo === 'todos' ? 'selected' : '' ?>>Todos</option>
                     <option value="newDesing.php?tipo=filme" <?= $tipo === 'filme' ? 'selected' : '' ?>>Filme</option>
                     <option value="newDesing.php?tipo=serie" <?= $tipo === 'serie' ? 'selected' : '' ?>>Série</option>
                 </select>
