@@ -127,17 +127,7 @@
                             </div>
                         </div>
 
-                        <!-- Campos específicos para filmes -->
-                        <div class="campo-filme">
-                            <div class="grid grid-cols-1 gap-4">
-                                <div>
-                                    <label for="duracao" class="block text-sm font-medium text-gray-700 mb-1">Duração
-                                        (minutos)</label>
-                                    <input type="number" name="duracao" id="duracao" placeholder="120" min="1"
-                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                                </div>
-                            </div>
-                        </div>
+                      
 
                         <!-- Campos específicos para séries -->
                         <div class="campo-serie">
