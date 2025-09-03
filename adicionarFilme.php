@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
         rel="stylesheet">
-    <title>Cadastro de Filmes</title>
+    <title>Cadastro de Filmes e Séries</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -25,6 +25,41 @@
             border-color: #3b82f6;
             background-color: #f8fafc;
         }
+
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background-color: #1f2937;
+            color: white;
+        }
+
+        .tab-button:not(.active) {
+            background-color: transparent;
+            color: #6b7280;
+        }
+
+        .tab-button:not(.active):hover {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+
+        .campo-serie {
+            display: none;
+        }
+
+        .campo-serie.active {
+            display: block;
+        }
+
+        .campo-filme.active {
+            display: block;
+        }
+
+        .campo-filme {
+            display: none;
+        }
     </style>
 </head>
 
@@ -32,33 +67,39 @@
     <?php
     // Inclua os arquivos DAO para buscar os dados do banco
     require_once 'src/ConexaoBD.php';
-    require_once 'src/CategoriaDAO.php'; 
-    require_once 'src/ClassificacaoDAO.php'; 
-    
+    require_once 'src/CategoriaDAO.php';
+    require_once 'src/ClassificacaoDAO.php';
+
     $categorias = CategoriaDAO::listar();
     $classificacoes = ClassificacaoDAO::listar();
     ?>
 
-    <h3 class="text-3xl text-white font-semibold text-center my-12">Faça o cadastro de seu filme/série agora!</h3>
+    <h3 class="text-3xl text-white font-semibold text-center my-12" id="titulo-principal">Faça o cadastro de seu filme
+        agora!</h3>
 
     <div class="max-w-4xl mx-auto p-4">
         <div class="bg-gray-100 rounded-2xl p-8 shadow-xl">
             <div class="flex mb-8">
-                <button class="flex items-center space-x-2 bg-gray-800 text-white px-4 py-2 rounded-lg">
-                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                <button class="tab-button active flex items-center space-x-2 px-4 py-2 rounded-lg" id="btn-filme"
+                    onclick="alternarTipo('filme')">
+                    <div class="w-2 h-2 bg-current rounded-full"></div>
                     <span class="text-sm">Filme</span>
                 </button>
-                <button class="flex items-center space-x-2 text-gray-600 px-4 py-2 rounded-lg ml-4">
+                <button class="tab-button flex items-center space-x-2 px-4 py-2 rounded-lg ml-4" id="btn-serie"
+                    onclick="alternarTipo('serie')">
+                    <div class="w-2 h-2 bg-current rounded-full"></div>
                     <span class="text-sm">Série</span>
                 </button>
             </div>
+
+            <a href="">Teste</a>
 
             <form action="cadastro.php" method="POST" enctype="multipart/form-data">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div class="space-y-4">
                         <div>
                             <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
-                            <input type="text" name="titulo" id="titulo" placeholder="Digite o nome do seu filme"
+                            <input type="text" name="titulo" id="titulo" placeholder="Digite o nome do seu filme/série"
                                 class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                                 required>
                         </div>
@@ -88,6 +129,36 @@
                             </div>
                         </div>
 
+                        <!-- Campos específicos para filmes -->
+                        <div class="campo-filme active">
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label for="duracao" class="block text-sm font-medium text-gray-700 mb-1">Duração
+                                        (minutos)</label>
+                                    <input type="number" name="duracao" id="duracao" placeholder="120" min="1"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos para séries -->
+                        <div class="campo-serie">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="temporadas"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Temporadas</label>
+                                    <input type="number" name="temporadas" id="temporadas" placeholder="1" min="1"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                </div>
+                                <div>
+                                    <label for="episodios"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Episódios</label>
+                                    <input type="number" name="episodios" id="episodios" placeholder="10" min="1"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label for="idcategoria"
@@ -95,17 +166,18 @@
                                 <select name="idcategoria" id="idcategoria"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     <option value="">Selecione a Categoria</option>
-                                    <?php 
+                                    <?php
                                     require_once "src/CategoriaDAO.php";
                                     $categorias = CategoriaDAO::listar();
-                                    
-                                    foreach ($categorias as $categoria){ 
+
+                                    foreach ($categorias as $categoria) {
                                         ?>
-                                       
-                                                <option value="<?= $categoria['idcategoria'] ?>"><?= $categoria['nomecategoria'] ?></option>
-                                  <?php
-                        }
-                        ?>
+
+                                        <option value="<?= $categoria['idcategoria'] ?>"><?= $categoria['nomecategoria'] ?>
+                                        </option>
+                                        <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div>
@@ -118,21 +190,23 @@
                                     require_once "src/CategoriaDAO.php";
                                     $classificacoes = ClassificacaoDAO::listar();
 
-                                    foreach ($classificacoes as $classificacao){
+                                    foreach ($classificacoes as $classificacao) {
                                         ?>
-                             <option value="<?= $classificacao['idclassificacao'] ?>"><?= $classificacao['nomeclassificacao'] ?></option>
+                                        <option value="<?= $classificacao['idclassificacao'] ?>">
+                                            <?= $classificacao['nomeclassificacao'] ?>
+                                        </option>
 
                                         <?php
-                        }
-                        ?>
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <label for="detalhes"
-                                class="block text-sm font-medium text-gray-700 mb-1">Detalhes/Sinopse</label>
-                            <textarea name="detalhes" id="detalhes" placeholder="Digite os detalhes do seu filme"
+                            <label for="detalhes" class="block text-sm font-medium text-gray-700 mb-1"
+                                id="label-detalhes">Detalhes/Sinopse</label>
+                            <textarea name="detalhes" id="detalhes" placeholder="Digite os detalhes do seu filme/série"
                                 rows="4"
                                 class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"></textarea>
                         </div>
@@ -140,7 +214,8 @@
 
                     <div class="space-y-4">
                         <div>
-                            <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2">Inserir a imagem da
+                            <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2"
+                                id="label-imagem">Inserir a imagem da
                                 capa</label>
                             <div class="file-upload-area bg-white rounded-lg p-8 text-center cursor-pointer"
                                 onclick="document.getElementById('imagem').click()">
@@ -158,20 +233,97 @@
                             <input type="file" name="imagem" id="imagem" class="hidden" accept="image/*">
                         </div>
 
-                        <input type="hidden" name="tipo" value="filme">
+                        <input type="hidden" name="tipo" value="filme" id="tipo-hidden">
 
-                        </div>
+                    </div>
                 </div>
 
                 <div class="mt-8 flex justify-center">
                     <button type="submit"
-                        class="bg-gray-800 hover:bg-gray-900 text-white px-12 py-3 rounded-lg transition-colors duration-200 font-medium">
+                        class="bg-gray-800 hover:bg-gray-900 text-white px-12 py-3 rounded-lg transition-colors duration-200 font-medium"
+                        id="btn-submit">
                         Cadastrar Filme
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function alternarTipo(tipo) {
+            const btnFilme = document.getElementById('btn-filme');
+            const btnSerie = document.getElementById('btn-serie');
+            const camposFilme = document.querySelectorAll('.campo-filme');
+            const camposSerie = document.querySelectorAll('.campo-serie');
+            const tipoHidden = document.getElementById('tipo-hidden');
+            const btnSubmit = document.getElementById('btn-submit');
+            const tituloPrincipal = document.getElementById('titulo-principal');
+            const placeholderTitulo = document.getElementById('titulo');
+            const placeholderDetalhes = document.getElementById('detalhes');
+
+            if (tipo === 'filme') {
+                // Ativar botão filme
+                btnFilme.classList.add('active');
+                btnSerie.classList.remove('active');
+
+                // Mostrar campos de filme, esconder de série
+                camposFilme.forEach(campo => campo.classList.add('active'));
+                camposSerie.forEach(campo => campo.classList.remove('active'));
+
+                // Atualizar textos
+                tipoHidden.value = 'filme';
+                btnSubmit.textContent = 'Cadastrar Filme';
+                tituloPrincipal.textContent = 'Faça o cadastro de seu filme agora!';
+                placeholderTitulo.placeholder = 'Digite o nome do seu filme';
+                placeholderDetalhes.placeholder = 'Digite os detalhes do seu filme';
+
+                // Limpar campos específicos de série
+                document.getElementById('temporadas').value = '';
+                document.getElementById('episodios').value = '';
+
+            } else if (tipo === 'serie') {
+                // Ativar botão série
+                btnSerie.classList.add('active');
+                btnFilme.classList.remove('active');
+
+                // Mostrar campos de série, esconder de filme
+                camposSerie.forEach(campo => campo.classList.add('active'));
+                camposFilme.forEach(campo => campo.classList.remove('active'));
+
+                // Atualizar textos
+                tipoHidden.value = 'serie';
+                btnSubmit.textContent = 'Cadastrar Série';
+                tituloPrincipal.textContent = 'Faça o cadastro de sua série agora!';
+                placeholderTitulo.placeholder = 'Digite o nome da sua série';
+                placeholderDetalhes.placeholder = 'Digite os detalhes da sua série';
+
+                // Limpar campos específicos de filme
+                document.getElementById('duracao').value = '';
+            }
+        }
+
+        // Mostrar nome do arquivo selecionado
+        document.getElementById('imagem').addEventListener('change', function (event) {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadArea = document.querySelector('.file-upload-area');
+                uploadArea.innerHTML = `
+                    <div class="flex flex-col items-center justify-center">
+                        <svg class="w-12 h-12 text-green-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <p class="text-gray-700 text-sm font-medium">${file.name}</p>
+                        <p class="text-gray-500 text-xs mt-1">Arquivo selecionado</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Inicializar como filme por padrão
+        document.addEventListener('DOMContentLoaded', function () {
+            alternarTipo('filme');
+        });
+    </script>
 </body>
 
 </html>

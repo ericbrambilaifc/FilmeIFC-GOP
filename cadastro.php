@@ -3,5 +3,6 @@ require_once 'src/FilmeDAO.php';
 $dados = $_POST;
 FilmeDAO::inserir($dados);
 
-echo "Cliente inserido com sucesso! 😂";
+echo "Cadastro realizado com sucesso ✅";
+echo "Voltar para ";
 ?>
