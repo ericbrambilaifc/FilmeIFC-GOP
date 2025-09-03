@@ -120,7 +120,7 @@
                                 <input type="number" name="ano" id="ano" placeholder="2024" min="1900" max="2030"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                             </div>
-                            <div>
+                            <div class="campo-filme"> <!-- Removido 'active' para controle via JS -->
                                 <label for="oscar" class="block text-sm font-medium text-gray-700 mb-1">Oscars</label>
                                 <input type="number" name="oscar" id="oscar" placeholder="0" min="0"
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
@@ -128,7 +128,7 @@
                         </div>
 
                         <!-- Campos específicos para filmes -->
-                        <div class="campo-filme active">
+                        <div class="campo-filme">
                             <div class="grid grid-cols-1 gap-4">
                                 <div>
                                     <label for="duracao" class="block text-sm font-medium text-gray-700 mb-1">Duração
@@ -165,12 +165,8 @@
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     <option value="">Selecione a Categoria</option>
                                     <?php
-                                    require_once "src/CategoriaDAO.php";
-                                    $categorias = CategoriaDAO::listar();
-
                                     foreach ($categorias as $categoria) {
                                         ?>
-
                                         <option value="<?= $categoria['idcategoria'] ?>"><?= $categoria['nomecategoria'] ?>
                                         </option>
                                         <?php
@@ -185,15 +181,11 @@
                                     class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                                     <option value="">Selecione a Classificação</option>
                                     <?php
-                                    require_once "src/CategoriaDAO.php";
-                                    $classificacoes = ClassificacaoDAO::listar();
-
                                     foreach ($classificacoes as $classificacao) {
                                         ?>
                                         <option value="<?= $classificacao['idclassificacao'] ?>">
                                             <?= $classificacao['nomeclassificacao'] ?>
                                         </option>
-
                                         <?php
                                     }
                                     ?>
@@ -213,8 +205,7 @@
                     <div class="space-y-4">
                         <div>
                             <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2"
-                                id="label-imagem">Inserir a imagem da
-                                capa</label>
+                                id="label-imagem">Inserir a imagem da capa</label>
                             <div class="file-upload-area bg-white rounded-lg p-8 text-center cursor-pointer"
                                 onclick="document.getElementById('imagem').click()">
                                 <div class="flex flex-col items-center justify-center">
@@ -232,7 +223,6 @@
                         </div>
 
                         <input type="hidden" name="tipo" value="filme" id="tipo-hidden">
-
                     </div>
                 </div>
 
@@ -297,12 +287,13 @@
 
                 // Limpar campos específicos de filme
                 document.getElementById('duracao').value = '';
+                document.getElementById('oscar').value = '';
             }
         }
 
-        // Mostrar nome do arquivo selecionado
+        // CORRIGIDO: Mudança de 'e' para 'event'
         document.getElementById('imagem').addEventListener('change', function (event) {
-            const file = e.target.files[0];
+            const file = event.target.files[0];
             if (file) {
                 const uploadArea = document.querySelector('.file-upload-area');
                 uploadArea.innerHTML = `
