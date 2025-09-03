@@ -65,13 +65,26 @@
 
 <body class="bg-gray-200 min-h-screen">
     <?php
-    // Inclua os arquivos DAO para buscar os dados do banco
     require_once 'src/ConexaoBD.php';
     require_once 'src/CategoriaDAO.php';
     require_once 'src/ClassificacaoDAO.php';
+    require_once 'src/FilmeDAO.php';
+    require_once 'src/SerieDAO.php';
 
     $categorias = CategoriaDAO::listar();
     $classificacoes = ClassificacaoDAO::listar();
+
+    if ($_POST) {
+        $tipo = $_POST['tipo'];
+
+        if ($tipo == 'filme') {
+            FilmeDAO::inserir($_POST);
+            echo "Filme cadastrado com sucesso!";
+        } else {
+            SerieDAO::inserir($_POST);
+            echo "Série cadastrada com sucesso!";
+        }
+    }
     ?>
 
     <h3 class="text-3xl text-white font-semibold text-center my-12" id="titulo-principal">Faça o cadastro de seu filme
@@ -166,10 +179,10 @@
                                     <option value="">Selecione a Categoria</option>
                                     <?php
                                     foreach ($categorias as $categoria) {
-                                        ?>
+                                    ?>
                                         <option value="<?= $categoria['idcategoria'] ?>"><?= $categoria['nomecategoria'] ?>
                                         </option>
-                                        <?php
+                                    <?php
                                     }
                                     ?>
                                 </select>
@@ -182,11 +195,11 @@
                                     <option value="">Selecione a Classificação</option>
                                     <?php
                                     foreach ($classificacoes as $classificacao) {
-                                        ?>
+                                    ?>
                                         <option value="<?= $classificacao['idclassificacao'] ?>">
                                             <?= $classificacao['nomeclassificacao'] ?>
                                         </option>
-                                        <?php
+                                    <?php
                                     }
                                     ?>
                                 </select>
@@ -292,7 +305,7 @@
         }
 
         // CORRIGIDO: Mudança de 'e' para 'event'
-        document.getElementById('imagem').addEventListener('change', function (event) {
+        document.getElementById('imagem').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
                 const uploadArea = document.querySelector('.file-upload-area');
@@ -309,7 +322,7 @@
         });
 
         // Inicializar como filme por padrão
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             alternarTipo('filme');
         });
     </script>
