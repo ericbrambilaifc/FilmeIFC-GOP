@@ -11,6 +11,6 @@ if ($_POST) {
         echo "Série cadastrada!";
     }
     
-    echo "<br><a href='adicionarFilme.php'>Voltar</a>";
+    echo "<br><a href='newDesing.php'>Ir para seção de filmes e séries</a>";
 }
 ?>

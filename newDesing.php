@@ -71,27 +71,13 @@
             <div class="absolute inset-0 flex items-center">
                 <div class="px-12 max-w-2xl">
                     <h1 class="text-5xl font-bold mb-4">
-                        <?= $itemsDestaque ? htmlspecialchars($itemsDestaque['titulo']) : 'GLADIADOR II' ?>
+                        <?= $itemsDestaque ? htmlspecialchars($itemsDestaque['titulo']) : ' ' ?> <!-- se nao tem nada fica string vazia -->
                     </h1>
                     <p class="text-lg text-gray-200 mb-8 leading-relaxed">
-                        <?= $itemsDestaque && !empty($itemsDestaque['detalhes']) ? htmlspecialchars($itemsDestaque['detalhes']) : 'Descrição padrão do destaque...' ?>
+                        <?= $itemsDestaque && !empty($itemsDestaque['detalhes']) ? htmlspecialchars($itemsDestaque['detalhes']) : ' ' ?> <!-- se nao tem nada fica string vazia -->
                     </p>
                     <div class="flex space-x-4">
-                        <button
-                            class="flex items-center space-x-2 bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M8 5v10l8-5-8-5z" />
-                            </svg>
-                            <span>Assistir</span>
-                        </button>
-                        <button
-                            class="flex items-center space-x-2 bg-gray-600/70 backdrop-blur-sm text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-600/90 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>Detalhes</span>
-                        </button>
+                   
                     </div>
                 </div>
             </div>
