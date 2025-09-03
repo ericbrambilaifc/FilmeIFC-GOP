@@ -12,7 +12,8 @@ class SerieDAO
         $diretor = $dados['diretor'] ;
         $elenco = $dados['elenco'] ;
         $ano = $dados['ano'] ;
-        $imagem = Util::salvarArquivo();
+        $imagem = Util::salvarArquivo();  
+
         $temporadas = $dados['temporadas'] ;
        
         
