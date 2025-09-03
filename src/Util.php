@@ -28,6 +28,7 @@ class Util
                 return $nomeUnico;
             }
         }
-        return false;
+        return 'default_serie.jpg'; // Retorna imagem padrão em caso de falha
     }
 }
+?>

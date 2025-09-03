@@ -1,12 +1,12 @@
-<?php
-require_once "ConexaoBD.php";
-require_once "src/Util.php";
+    <?php
+    require_once "ConexaoBD.php";
+    require_once "src/Util.php";
 
-class FilmeDAO
-{
-    public static function inserir($dados)
+    class FilmeDAO
     {
-        $conexao = ConexaoBD::conectar();
+        public static function inserir($dados)
+        {
+            $conexao = ConexaoBD::conectar();
 
         $titulo = $dados['titulo'];
         $diretor = $dados['diretor'];

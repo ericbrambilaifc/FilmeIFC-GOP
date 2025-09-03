@@ -9,6 +9,7 @@ class SerieDAO
         $conexao = ConexaoBD::conectar();
 
         $titulo = $dados['titulo'];
+<<<<<<< HEAD
         $diretor = $dados['diretor'] ?? null;
         $elenco = $dados['elenco'] ?? null;
         $ano = $dados['ano'] ?? null;
@@ -24,20 +25,43 @@ class SerieDAO
         $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes, imagemBanner) 
                 VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes, :imagemBanner)";
 
+=======
+        $diretor = $dados['diretor'] ;
+        $elenco = $dados['elenco'] ;
+        $ano = $dados['ano'] ;
+        $imagem = Util::salvarArquivo();  
+
+        $temporadas = $dados['temporadas'] ;
+       
+        
+        $idcategoria = $dados['idcategoria'] ;
+        $idclassificacao = $dados['idclassificacao'] ;
+        $detalhes = $dados['detalhes'] ;
+         $episodios = $dados['episodios'] ;
+
+        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, imagem, temporadas, idcategoria, idclassificacao, detalhes,episodios) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :imagem, :temporadas,   :idcategoria, :idclassificacao, :detalhes,:episodios)";
+        
+>>>>>>> 236adbfc864eac61cccb8083bc427f1a8124d982
         $stmt = $conexao->prepare($sql);
 
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':diretor', $diretor);
         $stmt->bindParam(':elenco', $elenco);
         $stmt->bindParam(':ano', $ano);
+         $stmt->bindParam(':imagem', $imagem);
         $stmt->bindParam(':temporadas', $temporadas);
-        $stmt->bindParam(':episodios', $episodios);
-        $stmt->bindParam(':imagem', $imagem);
+       
         $stmt->bindParam(':idcategoria', $idcategoria);
         $stmt->bindParam(':idclassificacao', $idclassificacao);
         $stmt->bindParam(':detalhes', $detalhes);
+<<<<<<< HEAD
         $stmt->bindParam(':imagemBanner', $imagemBanner);
 
+=======
+        $stmt->bindParam(':episodios', $episodios);
+        
+>>>>>>> 236adbfc864eac61cccb8083bc427f1a8124d982
         $stmt->execute();
     }
 
