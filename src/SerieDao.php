@@ -1,5 +1,6 @@
 <?php
 require_once "ConexaoBD.php";
+require_once "src/Util.php";
 
 class SerieDAO
 {
@@ -7,49 +8,21 @@ class SerieDAO
     {
         $conexao = ConexaoBD::conectar();
 
-        // SALVAMENTO DIRETO DA IMAGEM (substituindo Util::salvarArquivo())
-        $imagem = null;
-        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
-            $diretorioUpload = "uploads/";
-            
-            // Verifica se o diretório existe, senão, cria
-            if (!is_dir($diretorioUpload)) {
-                mkdir($diretorioUpload, 0755, true);
-            }
-            
-            $arquivoTmp = $_FILES['imagem']['tmp_name'];
-            $nomeOriginal = basename($_FILES['imagem']['name']);
-            $extensao = strtolower(pathinfo($nomeOriginal, PATHINFO_EXTENSION));
-            
-            // Gera um nome único para o arquivo
-            $nomeUnico = uniqid("img_", true) . "." . $extensao;
-            $caminhoFinal = $diretorioUpload . $nomeUnico;
-
-            // Move o arquivo
-            if (move_uploaded_file($arquivoTmp, $caminhoFinal)) {
-                $imagem = $nomeUnico;
-                error_log("Arquivo salvo com sucesso: " . $imagem);
-            } else {
-                error_log("Falha ao mover arquivo");
-                $imagem = 'default_serie.jpg';
-            }
-        } else {
-            error_log("Arquivo não enviado ou com erro: " . ($_FILES['imagem']['error'] ?? 'N/A'));
-            $imagem = 'default_serie.jpg';
-        }
-
         $titulo = $dados['titulo'];
-        $diretor = $dados['diretor'] ?? null;
-        $elenco = $dados['elenco'] ?? null;
-        $ano = $dados['ano'] ?? null;
-        $temporadas = $dados['temporadas'] ?? null;
-        $episodios = $dados['episodios'] ?? null;
-        $idcategoria = $dados['idcategoria'] ?? null;
-        $idclassificacao = $dados['idclassificacao'] ?? null;
-        $detalhes = $dados['detalhes'] ?? null;
+        $diretor = $dados['diretor'] ;
+        $elenco = $dados['elenco'] ;
+        $ano = $dados['ano'] ;
+        $imagem = Util::salvarArquivo();
+        $temporadas = $dados['temporadas'] ;
+       
+        
+        $idcategoria = $dados['idcategoria'] ;
+        $idclassificacao = $dados['idclassificacao'] ;
+        $detalhes = $dados['detalhes'] ;
+         $episodios = $dados['episodios'] ;
 
-        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes) 
-                VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes)";
+        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, imagem, temporadas, idcategoria, idclassificacao, detalhes,episodios) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :imagem, :temporadas,   :idcategoria, :idclassificacao, :detalhes,:episodios)";
         
         $stmt = $conexao->prepare($sql);
         
@@ -57,12 +30,13 @@ class SerieDAO
         $stmt->bindParam(':diretor', $diretor);
         $stmt->bindParam(':elenco', $elenco);
         $stmt->bindParam(':ano', $ano);
+         $stmt->bindParam(':imagem', $imagem);
         $stmt->bindParam(':temporadas', $temporadas);
-        $stmt->bindParam(':episodios', $episodios);
-        $stmt->bindParam(':imagem', $imagem);
+       
         $stmt->bindParam(':idcategoria', $idcategoria);
         $stmt->bindParam(':idclassificacao', $idclassificacao);
         $stmt->bindParam(':detalhes', $detalhes);
+        $stmt->bindParam(':episodios', $episodios);
         
         $stmt->execute();
     }
