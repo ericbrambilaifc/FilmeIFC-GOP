@@ -40,14 +40,19 @@
         $itemsDestaque = null;
 
         if ($tipo === 'serie') {
+            // se for serie usa seriedao
+
             if ($idClassificacao && $idClassificacao !== 'null') {
+                // filtra series por classificacao
                 $items = SerieDAO::listarPorClassificacao($idClassificacao);
             } elseif ($idCategoria && $idCategoria !== 'null') {
+                // se nao tem classificacao filtra por categoria
                 $items = SerieDAO::listarPorCategoria($idCategoria);
+                // se nao tem filtro lista todas as series
             } else {
                 $items = SerieDAO::listar();
             }
-        } else { // 'filme'
+        } else {
             if ($idClassificacao && $idClassificacao !== 'null') {
                 $items = FilmeDAO::listarPorClassificacao($idClassificacao);
             } elseif ($idCategoria && $idCategoria !== 'null') {
@@ -65,9 +70,9 @@
         $categorias = CategoriaDAO::listar();
         ?>
 
-        <!-- Destaque -->
+         
         <?php
-        // Criar array com todos os itens (filmes + séries) para o banner
+        // array com todos os itens 
         $todosItensDestaque = array();
 
         foreach ($filmes as $filme) {
@@ -110,7 +115,6 @@
                 </button>
             </div>
 
-            <!-- Indicadores de pontos -->
             <div id="bannerIndicators" class="absolute bottom-6 left-12 flex space-x-2"></div>
         </section>
 
@@ -131,7 +135,6 @@
                 const tipo = document.getElementById('bannerTipo');
                 const ano = document.getElementById('bannerAno');
 
-                // Fade out
                 titulo.style.opacity = '0';
                 detalhes.style.opacity = '0';
 
@@ -142,7 +145,7 @@
                     detalhes.textContent = item.detalhes || '';
                     ano.textContent = item.ano ? `(${item.ano})` : '';
 
-                    // Configurar badge do tipo
+                    // valida do tipo
                     if (item.tipo === 'filme') {
                         tipo.textContent = 'FILME';
                         tipo.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-blue-600 text-white';
@@ -236,7 +239,7 @@
         <!-- Filtros -->
         <div class="flex justify-end space-x-4 mb-8">
             <div class="relative">
-                <select onchange="window.location.href=this.value" class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full appearance-none cursor-pointer pr-8"> <!-- // Quando o selecionar uma opcao a padina muda para o link do value -->
+                <select onchange="window.location.href=this.value" class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full appearance-none cursor-pointer pr-8">  <!-- // Quando o selecionar uma opcao a padina muda para o link do value -->
                     <option value="newDesing.php?tipo=" <?= $tipo === 'todos' ? 'selected' : '' ?>>Todos</option> <!-- value -->
                     <option value="newDesing.php?tipo=filme" <?= $tipo === 'filme' ? 'selected' : '' ?>>Filme</option> <!-- value -->
                     <option value="newDesing.php?tipo=serie" <?= $tipo === 'serie' ? 'selected' : '' ?>>Série</option> <!-- value -->
@@ -338,7 +341,7 @@
                                 <p id="modalDetalhesTexto" class="text-gray-300 leading-relaxed"></p>
                             </div>
 
-                            <!-- Informações específicas para séries -->
+
                             <div id="infoSerie" class="hidden mb-6">
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -352,7 +355,6 @@
                                 </div>
                             </div>
 
-                            <!-- Informações específicas para filmes -->
                             <div id="infoFilme" class="hidden mb-6">
                                 <div>
                                     <h4 class="text-lg font-semibold mb-2 text-white">Prêmios Oscar</h4>
@@ -389,7 +391,7 @@
                 <h2 class="text-2xl font-semibold">
                     <?php
                     $tipo = $_GET['tipo'] ?? null;   // Pega o tipo da url, ?tipo=filme / ?tipo=serie
-                    // ?? é pra se não existe, define como null para evitar erro
+                    // ?? é pra se não existe, define como null para nao dar erro
 
                     switch ($tipo) {
                         case 'serie':
@@ -424,21 +426,21 @@
                     $todosTitulos = array();
                     $tipoSelecionado = isset($_GET['tipo']) ? $_GET['tipo'] : 'todos';
 
-                    // Filtrar baseado na seleção
+                    
                     if ($tipoSelecionado === 'filme') {
-                        // Mostrar apenas filmes
+                        //  apenas filmes
                         foreach ($filmes as $filme) {
                             $filme['tipo'] = 'filme';
                             $todosTitulos[] = $filme;
                         }
                     } elseif ($tipoSelecionado === 'serie') {
-                        // Mostrar apenas séries
+                        //  apenas séries
                         foreach ($series as $serie) {
                             $serie['tipo'] = 'serie';
                             $todosTitulos[] = $serie;
                         }
                     } else {
-                        // Mostrar todos misturados (comportamento padrão)
+                        // tudo misturado
                         foreach ($filmes as $filme) {
                             $filme['tipo'] = 'filme';
                             $todosTitulos[] = $filme;
@@ -452,7 +454,7 @@
                         shuffle($todosTitulos); // embaralha apenas quando mostra todos  pega um array e embaralha os elementos dele
                     }
 
-                    // Loop pelos títulos filtrados - usando ?? para evitar erro
+                    // titulos filtrados - usando ?? para evitar erro
                     foreach ($items as $titulo):
                     ?>
                         <div class="flex-none w-48">
@@ -461,7 +463,7 @@
                                 <img src="uploads/<?= htmlspecialchars($titulo['imagem']) ?>"
                                     alt="<?= htmlspecialchars($titulo['titulo']) ?>" class="w-full h-full object-cover">
 
-                                <!-- Badge para identificar se é filme ou série -->
+                                <!--  identifica se é filme ou série -->
                                 <div class="absolute top-2 right-2">
                                     <span class="<?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'bg-blue-600' : 'bg-green-600' ?> text-white text-xs px-2 py-1 rounded-full">
                                         <?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'FILME' : 'SÉRIE' ?>
