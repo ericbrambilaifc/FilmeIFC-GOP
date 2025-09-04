@@ -8,8 +8,8 @@ class SerieDAO
     {
         $conexao = ConexaoBD::conectar();
 
-        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes, imagemBanner) 
-                VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes, :imagemBanner)";
+        $sql = "INSERT INTO serie (titulo, diretor, elenco, ano, temporadas, episodios, imagem, idcategoria, idclassificacao, detalhes)
+                VALUES (:titulo, :diretor, :elenco, :ano, :temporadas, :episodios, :imagem, :idcategoria, :idclassificacao, :detalhes)";
 
         $stmt = $conexao->prepare($sql);
         $stmt->execute([
@@ -23,7 +23,6 @@ class SerieDAO
             ':idcategoria' => $dados['idcategoria'] ?? null,
             ':idclassificacao' => $dados['idclassificacao'] ?? null,
             ':detalhes' => $dados['detalhes'] ?? null,
-            ':imagemBanner' => Util::salvarArquivo()
         ]);
     }
 
@@ -34,7 +33,7 @@ class SerieDAO
                 FROM serie
                 JOIN categoria ON serie.idcategoria = categoria.idcategoria
                 JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao";
-        
+                
         return $conexao->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -46,7 +45,7 @@ class SerieDAO
                 JOIN categoria ON serie.idcategoria = categoria.idcategoria
                 JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao
                 WHERE serie.idclassificacao = ?";
-        
+                
         $stmt = $conexao->prepare($sql);
         $stmt->execute([$idClassificacao]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -60,7 +59,7 @@ class SerieDAO
                 JOIN categoria ON serie.idcategoria = categoria.idcategoria
                 JOIN classificacao ON serie.idclassificacao = classificacao.idclassificacao
                 WHERE serie.idcategoria = ?";
-        
+                
         $stmt = $conexao->prepare($sql);
         $stmt->execute([$idCategoria]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
