@@ -461,14 +461,7 @@
                             <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300 relative"
                                 onclick="abrirModal(<?= htmlspecialchars(json_encode($titulo)) ?>)">
                                 <img src="uploads/<?= htmlspecialchars($titulo['imagem']) ?>"
-                                    alt="<?= htmlspecialchars($titulo['titulo']) ?>" class="w-full h-full object-cover">
-
-                                <!--  identifica se é filme ou série -->
-                                <div class="absolute top-2 right-2">
-                                    <span class="<?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'bg-blue-600' : 'bg-green-600' ?> text-white text-xs px-2 py-1 rounded-full">
-                                        <?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'FILME' : 'SÉRIE' ?>
-                                    </span>
-                                </div>
+                                    alt="<?= htmlspecialchars($titulo['titulo']) ?>" class="w-full h-full object-cover">                                
 
                                 <!-- titulo embaixo -->
                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
