@@ -305,6 +305,88 @@
 
 
         <!-- Carrossel filmes e series filtrados -->
+        <!-- Modal para detalhes do filme/série -->
+        <div id="modalDetalhes" class="fixed inset-0 bg-black/70 z-50 hidden" style="backdrop-filter: blur(8px);">
+            <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                <!-- Header do Modal -->
+                <div class="relative">
+                    <img id="modalImagem" src="" alt="" class="w-full h-64 object-cover rounded-t-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent rounded-t-2xl"></div>
+                    <button onclick="fecharModal()" class="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Conteúdo do Modal -->
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h2 id="modalTitulo" class="text-3xl font-bold mb-2"></h2>
+                            <div class="flex items-center space-x-4 text-gray-400">
+                                <span id="modalAno"></span>
+                                <span id="modalTipo" class="px-3 py-1 rounded-full text-sm font-semibold"></span>
+                                <span id="modalClassificacao" class="px-3 py-1 bg-red-600 text-white rounded-full text-sm font-semibold"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                        <div class="md:col-span-2">
+                            <div class="mb-6">
+                                <h3 class="text-xl font-semibold mb-3 text-white">Sinopse</h3>
+                                <p id="modalDetalhesTexto" class="text-gray-300 leading-relaxed"></p>
+                            </div>
+
+                            <!-- Informações específicas para séries -->
+                            <div id="infoSerie" class="hidden mb-6">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2 text-white">Temporadas</h4>
+                                        <p id="modalTemporadas" class="text-gray-300"></p>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2 text-white">Episódios</h4>
+                                        <p id="modalEpisodios" class="text-gray-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Informações específicas para filmes -->
+                            <div id="infoFilme" class="hidden mb-6">
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-2 text-white">Prêmios Oscar</h4>
+                                    <p id="modalOscars" class="text-gray-300"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Coluna lateral -->
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-white">Diretor</h4>
+                                <p id="modalDiretor" class="text-gray-300"></p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-white">Elenco</h4>
+                                <p id="modalElenco" class="text-gray-300"></p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-white">Gênero</h4>
+                                <p id="modalCategoria" class="text-gray-300"></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
         <section class="mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-semibold">
@@ -365,13 +447,16 @@
                         }
 
                         shuffle($todosTitulos); // embaralha apenas quando mostra todos
+
+
                     }
 
                     // Exibir os títulos filtrados
                     foreach ($todosTitulos as $titulo):
                     ?>
                         <div class="flex-none w-48">
-                            <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300 relative">
+                            <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300 relative"
+                                onclick="abrirModal(<?= htmlspecialchars(json_encode($titulo)) ?>)">
                                 <img src="uploads/<?= htmlspecialchars($titulo['imagem']) ?>"
                                     alt="<?= htmlspecialchars($titulo['titulo']) ?>" class="w-full h-full object-cover">
 
@@ -394,6 +479,68 @@
                 </div>
             </div>
         </section>
+
+        <script>
+            function abrirModal(item) {
+                const modal = document.getElementById('modalDetalhes');
+
+                document.getElementById('modalImagem').src = 'uploads/' + item.imagem;
+                document.getElementById('modalTitulo').textContent = item.titulo || 'Título não disponível';
+                document.getElementById('modalAno').textContent = item.ano ? '(' + item.ano + ')' : '';
+                document.getElementById('modalDetalhesTexto').textContent = item.detalhes || 'Detalhes não disponíveis';
+                document.getElementById('modalDiretor').textContent = item.diretor || 'Não informado';
+                document.getElementById('modalElenco').textContent = item.elenco || 'Não informado';
+
+                // Configurar tipo
+                const tipoElement = document.getElementById('modalTipo');
+                if (item.tipo === 'filme') {
+                    tipoElement.textContent = 'FILME';
+                    tipoElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-blue-600 text-white';
+
+                    // Mostrar informações de filme
+                    document.getElementById('infoFilme').classList.remove('hidden');
+                    document.getElementById('infoSerie').classList.add('hidden');
+                    document.getElementById('modalOscars').textContent = item.oscars || '0';
+                } else {
+                    tipoElement.textContent = 'SÉRIE';
+                    tipoElement.className = 'px-3 py-1 rounded-full text-sm font-semibold bg-green-600 text-white';
+
+                    // Mostrar informações de série
+                    document.getElementById('infoSerie').classList.remove('hidden');
+                    document.getElementById('infoFilme').classList.add('hidden');
+                    document.getElementById('modalTemporadas').textContent = item.temporadas || 'Não informado';
+                    document.getElementById('modalEpisodios').textContent = item.episodios || 'Não informado';
+                }
+
+                document.getElementById('modalCategoria').textContent = item.nomecategoria || 'Não informado';
+                document.getElementById('modalClassificacao').textContent = "Classificação Indicativa " + item.nomeclassificacao + " anos" || '';
+
+                // Exibir modal
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Impedir scroll do body
+            }
+
+            // Função para fechar o modal
+            function fecharModal() {
+                const modal = document.getElementById('modalDetalhes');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restaurar scroll do body
+            }
+
+            // Fechar modal ao clicar fora dele
+            document.getElementById('modalDetalhes').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModal();
+                }
+            });
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModal();
+                }
+            });
+        </script>
 
         <!-- Carrossel só de Filmes -->
         <section class="mb-12">

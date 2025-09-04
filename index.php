@@ -98,7 +98,7 @@
             if (selectedOption === 'admin') {
                 window.location.href = 'adicionarFilme.php';
             } else if (selectedOption === 'client') {
-                window.location.href = 'home.php';
+                window.location.href = 'newDesing.php';
             }
         });
 
