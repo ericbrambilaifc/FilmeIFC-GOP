@@ -17,10 +17,10 @@ class FilmeDAO
         $idcategoria = $dados['idcategoria'];
         $idclassificacao = $dados['idclassificacao'];
         $detalhes = $dados['detalhes'];
-        $imagembanner = Util::salvarArquivo();
+      
 
-        $sql = "INSERT INTO Filme (titulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao, detalhes, imagembanner) 
-                VALUES (:titulo, :diretor, :elenco, :ano, :oscar, :imagem, :idcategoria, :idclassificacao, :detalhes, :imagembanner)";
+        $sql = "INSERT INTO Filme (titulo, diretor, elenco, ano, oscar, imagem, idcategoria, idclassificacao, detalhes) 
+                VALUES (:titulo, :diretor, :elenco, :ano, :oscar, :imagem, :idcategoria, :idclassificacao, :detalhes )";
 
         $stmt = $conexao->prepare($sql);
 
@@ -33,7 +33,7 @@ class FilmeDAO
         $stmt->bindParam(':idcategoria', $idcategoria);
         $stmt->bindParam(':idclassificacao', $idclassificacao);
         $stmt->bindParam(':detalhes', $detalhes);
-        $stmt->bindParam(':imagembanner', $imagembanner);
+
 
         $stmt->execute();
     }
