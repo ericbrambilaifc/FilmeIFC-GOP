@@ -236,11 +236,10 @@
         <!-- Filtros -->
         <div class="flex justify-end space-x-4 mb-8">
             <div class="relative">
-                <select onchange="window.location.href=this.value"
-                    class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full appearance-none cursor-pointer pr-8">
-                    <option value="newDesing.php?tipo=" <?= $tipo === 'todos' ? 'selected' : '' ?>>Todos</option>
-                    <option value="newDesing.php?tipo=filme" <?= $tipo === 'filme' ? 'selected' : '' ?>>Filme</option>
-                    <option value="newDesing.php?tipo=serie" <?= $tipo === 'serie' ? 'selected' : '' ?>>Série</option>
+                <select onchange="window.location.href=this.value" class="bg-gray-700/50 backdrop-blur-sm border border-gray-600/50 text-white px-4 py-2 rounded-full appearance-none cursor-pointer pr-8"> <!-- // Quando o selecionar uma opcao a padina muda para o link do value -->
+                    <option value="newDesing.php?tipo=" <?= $tipo === 'todos' ? 'selected' : '' ?>>Todos</option> <!-- value -->
+                    <option value="newDesing.php?tipo=filme" <?= $tipo === 'filme' ? 'selected' : '' ?>>Filme</option> <!-- value -->
+                    <option value="newDesing.php?tipo=serie" <?= $tipo === 'serie' ? 'selected' : '' ?>>Série</option> <!-- value -->
                 </select>
                 <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -304,7 +303,6 @@
         </div>
 
 
-        <!-- Carrossel filmes e series filtrados -->
         <!-- Modal para detalhes do filme/série -->
         <div id="modalDetalhes" class="fixed inset-0 bg-black/70 z-50 hidden" style="backdrop-filter: blur(8px);">
             <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
@@ -319,7 +317,7 @@
                     </button>
                 </div>
 
-                <!-- Conteúdo do Modal -->
+                <!-- Modal -->
                 <div class="p-8">
                     <div class="flex items-start justify-between mb-6">
                         <div>
@@ -363,7 +361,6 @@
                             </div>
                         </div>
 
-                        <!-- Coluna lateral -->
                         <div class="space-y-6">
                             <div>
                                 <h4 class="text-lg font-semibold mb-2 text-white">Diretor</h4>
@@ -391,12 +388,18 @@
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-semibold">
                     <?php
-                    if (isset($_GET['tipo']) && $_GET['tipo'] === 'serie') {
-                        echo 'Séries em Destaque';
-                    } elseif (isset($_GET['tipo']) && $_GET['tipo'] === 'filme') {
-                        echo 'Filmes em Destaque';
-                    } else {
-                        echo 'Títulos em Destaque';
+                    $tipo = $_GET['tipo'] ?? null;   // Pega o tipo da url, ?tipo=filme / ?tipo=serie
+                    // ?? é pra se não existe, define como null para evitar erro
+
+                    switch ($tipo) {
+                        case 'serie':
+                            echo 'Séries em Destaque';
+                            break;
+                        case 'filme':
+                            echo 'Filmes em Destaque';
+                            break;
+                        default:
+                            echo 'Títulos em Destaque';
                     }
                     ?>
                 </h2>
@@ -446,13 +449,11 @@
                             $todosTitulos[] = $serie;
                         }
 
-                        shuffle($todosTitulos); // embaralha apenas quando mostra todos
-
-
+                        shuffle($todosTitulos); // embaralha apenas quando mostra todos  pega um array e embaralha os elementos dele
                     }
 
-                    // Exibir os títulos filtrados
-                    foreach ($todosTitulos as $titulo):
+                    // Loop pelos títulos filtrados - usando ?? para evitar erro
+                    foreach ($items as $titulo):
                     ?>
                         <div class="flex-none w-48">
                             <div class="bg-gray-200 rounded-xl overflow-hidden aspect-[2/3] cursor-pointer hover:scale-105 transition-transform duration-300 relative"
@@ -462,12 +463,12 @@
 
                                 <!-- Badge para identificar se é filme ou série -->
                                 <div class="absolute top-2 right-2">
-                                    <span class="<?= $titulo['tipo'] == 'filme' ? 'bg-blue-600' : 'bg-green-600' ?> text-white text-xs px-2 py-1 rounded-full">
-                                        <?= $titulo['tipo'] == 'filme' ? 'FILME' : 'SÉRIE' ?>
+                                    <span class="<?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'bg-blue-600' : 'bg-green-600' ?> text-white text-xs px-2 py-1 rounded-full">
+                                        <?= ($titulo['tipo'] ?? 'filme') == 'filme' ? 'FILME' : 'SÉRIE' ?>
                                     </span>
                                 </div>
 
-                                <!-- Título na parte inferior -->
+                                <!-- titulo embaixo -->
                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
                                     <h3 class="text-white text-sm font-semibold truncate">
                                         <?= htmlspecialchars($titulo['titulo']) ?>
@@ -542,7 +543,7 @@
             });
         </script>
 
-        <!-- Carrossel só de Filmes -->
+        <!-- Filmes -->
         <section class="mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-semibold">Filmes em destaque</h2>
@@ -575,8 +576,8 @@
             </div>
         </section>
 
-        <!-- Carrossel só de Séries -->
-        <section>
+        <!-- Séries -->
+        <section class="mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-semibold">Séries em destaque</h2>
                 <div class="flex space-x-2">
